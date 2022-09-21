@@ -1,4 +1,4 @@
-package clients
+package writer
 
 import (
 	"bytes"
@@ -33,7 +33,7 @@ func TestWrite(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
 			var output bytes.Buffer
-			NewShellWriter(&output, DefaultOptions).WriteLn(tc.input)
+			New(&output, DefaultOptions).WriteLn(tc.input)
 			if output.String() != tc.expected {
 				t.Errorf("Expected %v, got %v", tc.expected, output)
 			}
@@ -58,7 +58,7 @@ func TestWriteWithMultiLineString(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
 			var output bytes.Buffer
-			NewShellWriter(&output, DefaultOptions).WriteLn(tc.input)
+			New(&output, DefaultOptions).WriteLn(tc.input)
 			if output.String() != tc.expected {
 				t.Errorf("Expected %v, got %v", tc.expected, output)
 			}
@@ -74,7 +74,7 @@ func TestWriteWithPackageStruct(t *testing.T) {
 
 	expected := "Package Id, Discount, Total Delivery Cost\npkg1, 0.00, 175.00\npkg2, 0.00, 275.00\npkg3, 35.00, 665.00\n"
 	var output bytes.Buffer
-	NewShellWriter(&output, DefaultOptions).WriteLn(str)
+	New(&output, DefaultOptions).WriteLn(str)
 
 	if output.String() != expected {
 		t.Errorf("Expected %v, got %v", str, output)
@@ -117,7 +117,7 @@ func TestWriteError(t *testing.T) {
 					t.Errorf("Should panic")
 				}
 			}()
-			NewShellWriter(&output, DefaultOptions).WriteError(tc.input)
+			New(&output, DefaultOptions).WriteError(tc.input)
 		})
 	}
 }

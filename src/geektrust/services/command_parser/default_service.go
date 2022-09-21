@@ -1,16 +1,16 @@
 package command_parser
 
 import (
-	"geektrust/clients"
+	reader_client "geektrust/clients/reader"
 	"strings"
 )
 
 type service struct {
-	reader clients.BaseReader
+	reader reader_client.BaseReader
 }
 
 // Command parser for shell client input
-func NewShellCommandParser(reader clients.BaseReader) CommandParser {
+func New(reader reader_client.BaseReader) CommandParser {
 	return &service{reader}
 }
 

@@ -9,7 +9,7 @@ import (
 type service struct {
 }
 
-func NewCouponService() CouponService {
+func New() CouponService {
 	return &service{}
 }
 

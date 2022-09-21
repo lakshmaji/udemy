@@ -1,4 +1,4 @@
-package clients
+package writer
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ type shellClient struct {
 }
 
 // Handles responsibility of writing to **STDOUT**
-func NewShellWriter(w io.Writer, options *Options) BaseWriter {
+func New(w io.Writer, options *Options) BaseWriter {
 	return &shellClient{
 		w:       w,
 		options: options,

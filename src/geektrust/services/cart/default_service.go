@@ -1,12 +1,10 @@
 package cart
 
 import (
-	"geektrust/clients"
 	"geektrust/domain"
 	"geektrust/domain/coupon"
 	"geektrust/domain/program"
-	coupon_service "geektrust/service/coupon"
-	printer_service "geektrust/service/printer"
+	coupon_service "geektrust/services/coupon"
 	"geektrust/utils"
 	"log"
 	"strconv"
@@ -17,7 +15,7 @@ type service struct {
 	couponService coupon_service.CouponService
 }
 
-func NewCartService(cart *domain.Cart, couponService coupon_service.CouponService) CartService {
+func New(cart *domain.Cart, couponService coupon_service.CouponService) CartService {
 	return &service{cart, couponService}
 }
 
@@ -53,15 +51,11 @@ func (c *service) AddProgram(argList []string) {
 // Prints the total billable breakdown in a template defined in `printer.PrintBill()`.
 // This computes the coupon discount to be applicable (based on coupon eligibility criteria).
 // Updates cart instance with discount applied on overall cart and coupon considered.
-func (c *service) ComputeDiscountAndPrintBill(writer clients.BaseWriter) {
+func (c *service) ComputeDiscount() {
 	// Apply discount and computes the total, before printing.
 	subTotal := c.cart.SubTotal()
 	coupon := c.couponService.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
 	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal)
 	c.cart.CouponDiscountApplied = discount
 	c.cart.CouponApplied = coupon
-
-	// TODO: do not tightly couple services
-	print := printer_service.NewPrinterService(writer)
-	print.BillTemplate(c.cart)
 }

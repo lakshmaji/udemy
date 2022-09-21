@@ -1,15 +1,15 @@
 package printer
 
 import (
-	"geektrust/clients"
+	writer_client "geektrust/clients/writer"
 	"geektrust/domain"
 )
 
 type printer struct {
-	writer clients.BaseWriter
+	writer writer_client.BaseWriter
 }
 
-func NewPrinterService(writer clients.BaseWriter) PrinterService {
+func NewPrinterService(writer writer_client.BaseWriter) PrinterService {
 	return &printer{writer}
 }
 

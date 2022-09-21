@@ -1,4 +1,4 @@
-package clients
+package reader
 
 import (
 	"bufio"
@@ -10,7 +10,7 @@ type fileClient struct {
 }
 
 // Handles responsibility of reading from **STDIN**
-func NewCartFileReader() BaseReader {
+func New() BaseReader {
 	return &fileClient{}
 }
 
@@ -29,13 +29,6 @@ func (f *fileClient) FileInput() ([]string, error) {
 
 	defer file.Close()
 
-	// var commands [][]string
-	// scanner := bufio.NewScanner(file)
-	// for scanner.Scan() {
-	// 	textLine := scanner.Text()
-	// 	fields := strings.Fields(textLine)
-	// 	commands = append(commands, fields)
-	// }
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
