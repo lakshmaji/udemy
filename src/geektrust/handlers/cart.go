@@ -19,7 +19,7 @@ const (
 	CommandPrintBill        = "PRINT_BILL"
 )
 
-func HandleCart(writer clients.BaseWriter) {
+func CartHandler(writer clients.BaseWriter) {
 	// TODO: need read inputs service (from http or shell)
 	file, err := readInput()
 	if err != nil {
@@ -44,7 +44,7 @@ func HandleCart(writer clients.BaseWriter) {
 		case CommandApplyCoupon:
 			cartService.AddCoupon(argList)
 		case CommandPrintBill:
-			cartService.PrintBill(writer)
+			cartService.ComputeDiscountAndPrintBill(writer)
 		default:
 			writer.WriteError("Unrecognized command provided")
 		}

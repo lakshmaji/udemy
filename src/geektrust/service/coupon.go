@@ -37,7 +37,7 @@ func (c *couponSvc) ApplicableCoupon(count int, subTotal float64, coupons coupon
 		return coupon.CouponB4G1
 	}
 
-	maxDiscountCoupon := coupons.Max()
+	maxDiscountCoupon := coupons.Pick()
 
 	var couponApplicable coupon.Coupon
 	if subTotal >= coupon.CouponDealG20MarginAmount && maxDiscountCoupon == coupon.CouponDealG20 {
