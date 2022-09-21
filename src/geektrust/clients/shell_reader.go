@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"os"
-	"strings"
 )
 
 type fileClient struct {
@@ -15,7 +14,7 @@ func NewCartFileReader() BaseReader {
 	return &fileClient{}
 }
 
-func (f *fileClient) CartCommands() ([][]string, error) {
+func (f *fileClient) FileInput() ([]string, error) {
 	cliArgs := os.Args[1:]
 	if len(cliArgs) == 0 {
 		return nil, errors.New("Please provide the input file path")
@@ -30,17 +29,23 @@ func (f *fileClient) CartCommands() ([][]string, error) {
 
 	defer file.Close()
 
-	var commands [][]string
+	// var commands [][]string
+	// scanner := bufio.NewScanner(file)
+	// for scanner.Scan() {
+	// 	textLine := scanner.Text()
+	// 	fields := strings.Fields(textLine)
+	// 	commands = append(commands, fields)
+	// }
+	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		textLine := scanner.Text()
-		fields := strings.Fields(textLine)
-		commands = append(commands, fields)
+		lines = append(lines, textLine)
 	}
 
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
 
-	return commands, nil
+	return lines, nil
 }

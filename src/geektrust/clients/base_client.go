@@ -7,5 +7,5 @@ type BaseWriter interface {
 }
 
 type BaseReader interface {
-	CartCommands() ([][]string, error)
+	FileInput() ([]string, error)
 }
