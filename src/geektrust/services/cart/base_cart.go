@@ -1,3 +1,14 @@
+/*
+This cart package is a service, which is used to manipulate the cart instance properties.
+
+Add program category to cart with specified number of items.
+
+Add pro membership subscription.
+
+Apply coupon code.
+
+Computes discount after applying a eligible coupon.
+*/
 package cart
 
 type CartService interface {
