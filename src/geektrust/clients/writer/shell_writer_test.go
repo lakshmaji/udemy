@@ -117,7 +117,7 @@ func TestWriteError(t *testing.T) {
 					t.Errorf("Should panic")
 				}
 			}()
-			New(&output, DefaultOptions).WriteError(tc.input)
+			New(&output, DefaultOptions).WriteError("%v", tc.input)
 		})
 	}
 }

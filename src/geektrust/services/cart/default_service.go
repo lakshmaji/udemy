@@ -6,7 +6,6 @@ import (
 	"geektrust/domain/program"
 	coupon_service "geektrust/services/coupon"
 	"geektrust/utils"
-	"log"
 	"strconv"
 )
 
@@ -19,40 +18,33 @@ func New(cart *domain.Cart, couponService coupon_service.CouponService) CartServ
 	return &service{cart, couponService}
 }
 
-// add coupon
-func (c *service) AddCoupon(argList []string) {
-	c.cart.AddCoupon(coupon.Coupon(argList[1]))
+func (c *service) AddCoupon(codeCmd string) {
+	c.cart.AddCoupon(coupon.Coupon(codeCmd))
 }
 
-// Add pro membership
 func (c *service) AddProMembership() {
 	c.cart.AddProMembership()
 }
 
-// Add item (program) to the cart.
-func (c *service) AddProgram(argList []string) {
-	qty, err := strconv.Atoi(argList[2])
+func (c *service) AddProgram(quantityCmd string, categoryCmd string) error {
+	qty, err := strconv.Atoi(quantityCmd)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	category := utils.MapStringToProgramCategory(argList[1])
+	category := utils.MapStringToProgramCategory(categoryCmd)
 	p := program.Program{
 		Category: category,
 		Qty:      qty,
 	}
 
 	if err := c.cart.AddProgram(p); err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }
 
-// Computes discount using coupon applied (or considered)
-// Prints the total billable breakdown in a template defined in `printer.PrintBill()`.
-// This computes the coupon discount to be applicable (based on coupon eligibility criteria).
-// Updates cart instance with discount applied on overall cart and coupon considered.
 func (c *service) ComputeDiscount() {
-	// Apply discount and computes the total, before printing.
 	subTotal := c.cart.SubTotal()
 	coupon := c.couponService.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
 	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal)

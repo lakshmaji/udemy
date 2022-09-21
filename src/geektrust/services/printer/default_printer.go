@@ -5,16 +5,18 @@ import (
 	"geektrust/domain"
 )
 
+// This expects a BaseWriter implementation, which will be used to write the output.
 type printer struct {
 	writer writer_client.BaseWriter
 }
 
-func NewPrinterService(writer writer_client.BaseWriter) PrinterService {
+// This instantiate a printer service instance.
+//
+// Expects a BaseWrite implementation as function parameter.
+func New(writer writer_client.BaseWriter) PrinterService {
 	return &printer{writer}
 }
 
-// Generates the printable bill template for programs, discount and totals.
-// Invoke writer to write to STDOUT.
 func (p *printer) BillTemplate(cart *domain.Cart) {
 	p.writer.WriteLn("SUB_TOTAL\t%.2f", cart.SubTotal())
 	if cart.CouponApplied == "" {

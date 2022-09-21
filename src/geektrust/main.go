@@ -1,3 +1,11 @@
+/*
+Command-line application to purchase different kinds of programmes from Geekdemy.
+Generate a total bill of the programmes after applying the discounts, if any.
+
+Contains loosely coupled services by applying SOLID principles.
+
+Follows Object Oriented Programming Style.
+*/
 package main
 
 import (
@@ -7,6 +15,7 @@ import (
 	"os"
 )
 
+// Generate the bill of purchases from Geekdemy.
 func main() {
 	var writer writer_client.BaseWriter
 	var reader reader_client.BaseReader

@@ -23,24 +23,27 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	// Get input commands
 	commands, err := commandIOService.Commands()
 	if err != nil {
-		writer.WriteError(err)
+		writer.WriteError("%v", err)
 	}
 
 	// Process commands
 	for _, command := range commands {
 		switch domain.Command(command[0]) {
 		case domain.CommandAddProgram:
-			cartService.AddProgram(command)
+			err := cartService.AddProgram(command[2], command[1])
+			if err != nil {
+				writer.WriteError("%v", err)
+			}
 		case domain.CommandAddProMembership:
 			cartService.AddProMembership()
 		case domain.CommandApplyCoupon:
-			cartService.AddCoupon(command)
+			cartService.AddCoupon(command[1])
 		case domain.CommandPrintBill:
 			cartService.ComputeDiscount()
-			printer := printer_service.NewPrinterService(writer)
+			printer := printer_service.New(writer)
 			printer.BillTemplate(cart)
 		default:
-			writer.WriteError("Unrecognized command provided")
+			writer.WriteError("Unrecognized command provided: %s", command)
 		}
 	}
 

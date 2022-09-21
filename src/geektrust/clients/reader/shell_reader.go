@@ -6,15 +6,18 @@ import (
 	"os"
 )
 
-type fileClient struct {
+// Shell reader client
+type client struct {
 }
 
-// Handles responsibility of reading from **STDIN**
+// This reader is shell based, which means it can interact with local file system.
+//
+// Currently it indirectly support this application by providing interface to read data from file.
 func New() BaseReader {
-	return &fileClient{}
+	return &client{}
 }
 
-func (f *fileClient) FileInput() ([]string, error) {
+func (f *client) FileInput() ([]string, error) {
 	cliArgs := os.Args[1:]
 	if len(cliArgs) == 0 {
 		return nil, errors.New("Please provide the input file path")

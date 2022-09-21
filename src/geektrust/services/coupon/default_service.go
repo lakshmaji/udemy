@@ -13,10 +13,6 @@ func New() CouponService {
 	return &service{}
 }
 
-// Returns the applicable coupon on the cart items (programs)
-// @param count 	- no programs in the cart
-// @param subTotal 	- the subTotal for your cart
-// @param coupons 	- the list of coupons applied on the cart
 func (c *service) ApplicableCoupon(count int, subTotal float64, coupons coupon.Coupons) coupon.Coupon {
 	if count >= coupon.CouponB4G1MarginCount {
 		return coupon.CouponB4G1
@@ -34,11 +30,7 @@ func (c *service) ApplicableCoupon(count int, subTotal float64, coupons coupon.C
 	return couponApplicable
 }
 
-// Returns the calculated total discount for a given coupon code on the provided amount
-// @param amount 	- Could be subTotal
-// @param programs 	- the program items in the cart
-// @param code 		- Coupon code to apply
-func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Program, amount float64) float64 {
+func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64) float64 {
 	var discount float64
 	switch code {
 	case coupon.CouponB4G1:
@@ -50,9 +42,9 @@ func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Progr
 		}
 		discount = programMinCost
 	case coupon.CouponDealG20:
-		discount = amount * code.Percentage()
+		discount = subTotal * code.Percentage()
 	case coupon.CouponDealG5:
-		discount = amount * code.Percentage()
+		discount = subTotal * code.Percentage()
 	default:
 		discount = 0
 	}
