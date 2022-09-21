@@ -7,7 +7,7 @@ import (
 )
 
 type Options struct {
-	trace bool
+	panic bool
 }
 
 var DefaultOptions *Options = &Options{}
@@ -17,16 +17,12 @@ type shellClient struct {
 	options *Options
 }
 
-// Handles responsibility of writing to **stdout**
+// Handles responsibility of writing to **STDOUT**
 func NewShellWriter(w io.Writer, options *Options) BaseWriter {
 	return &shellClient{
 		w:       w,
 		options: options,
 	}
-}
-
-func (s *shellClient) Write(format string, content ...interface{}) {
-	fmt.Fprintf(s.w, format, content...)
 }
 
 func (s *shellClient) WriteLn(format string, content ...interface{}) {
@@ -35,7 +31,7 @@ func (s *shellClient) WriteLn(format string, content ...interface{}) {
 
 func (s *shellClient) WriteError(content interface{}) {
 	fmt.Fprint(s.w, content)
-	if s.options.trace {
+	if s.options.panic {
 		panic(content)
 	}
 	os.Exit(1)

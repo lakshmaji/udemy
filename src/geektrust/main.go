@@ -7,9 +7,11 @@ import (
 )
 
 func main() {
-	var client clients.BaseWriter
-	client = clients.NewShellWriter(os.Stdout, clients.DefaultOptions)
+	var writer clients.BaseWriter
+	var reader clients.BaseReader
 
-	// Controller to handle the cart commands
-	handlers.CartHandler(client)
+	reader = clients.NewCartFileReader()
+	writer = clients.NewShellWriter(os.Stdout, clients.DefaultOptions)
+
+	handlers.CartHandler(writer, reader)
 }

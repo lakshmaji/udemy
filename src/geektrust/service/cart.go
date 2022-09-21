@@ -26,12 +26,12 @@ type CartService interface {
 }
 
 type cartSvc struct {
-	cart      *domain.Cart
-	couponSvc CouponService
+	cart          *domain.Cart
+	couponService CouponService
 }
 
-func NewCartService(cart *domain.Cart, couponSvc CouponService) CartService {
-	return &cartSvc{cart, couponSvc}
+func NewCartService(cart *domain.Cart, couponService CouponService) CartService {
+	return &cartSvc{cart, couponService}
 }
 
 // add coupon
@@ -67,11 +67,13 @@ func (c *cartSvc) AddProgram(argList []string) {
 // This computes the coupon discount to be applicable (based on coupon eligibility criteria).
 // Updates cart instance with discount applied on overall cart and coupon considered.
 func (c *cartSvc) ComputeDiscountAndPrintBill(writer clients.BaseWriter) {
-	printWriter := printer.NewPrinter(writer)
+	// Apply discount and computes the total, before printing.
 	subTotal := c.cart.SubTotal()
-	coupon := c.couponSvc.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
-	discount := c.couponSvc.CalculateDiscount(coupon, c.cart.Programs, subTotal)
+	coupon := c.couponService.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
+	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal)
 	c.cart.CouponDiscountApplied = discount
 	c.cart.CouponApplied = coupon
-	printWriter.PrintBill(c.cart)
+
+	print := printer.NewPrinter(writer)
+	print.BillTemplate(c.cart)
 }

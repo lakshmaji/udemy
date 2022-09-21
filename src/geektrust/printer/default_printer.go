@@ -5,15 +5,17 @@ import (
 	"geektrust/domain"
 )
 
-type Printer struct {
+type printer struct {
 	writer clients.BaseWriter
 }
 
 func NewPrinter(writer clients.BaseWriter) PrinterFactory {
-	return &Printer{writer}
+	return &printer{writer}
 }
 
-func (p *Printer) PrintBill(cart *domain.Cart) {
+// Generates the printable bill template for programs, discount and totals.
+// Invoke writer to write to STDOUT.
+func (p *printer) BillTemplate(cart *domain.Cart) {
 	p.writer.WriteLn("SUB_TOTAL\t%.2f", cart.SubTotal())
 	if cart.CouponApplied == "" {
 		p.writer.WriteLn("DISCOUNT\tNONE\t0")

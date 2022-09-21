@@ -2,6 +2,8 @@ package utils
 
 import "geektrust/domain/program"
 
+// Maps the program category to enum.
+// This will helps the code maintainable with minimal amount of memory allocation.
 func MapStringToProgramCategory(input string) program.ProgramCategory {
 	switch input {
 	case program.CategoryCertification.String():

@@ -8,13 +8,13 @@ import (
 
 type CouponService interface {
 
-	// Selects the applicable coupon on the cart items (programs)
+	// Returns the applicable coupon on the cart items (programs)
 	// @param count 	- no programs in the cart
 	// @param subTotal 	- the subTotal for your cart
 	// @param coupons 	- the list of coupons applied on the cart
 	ApplicableCoupon(count int, subTotal float64, coupons coupon.Coupons) coupon.Coupon
 
-	// Calculate the total discount for a applied coupon code on the provided amount
+	// Returns the calculated total discount for a given coupon code on the provided amount
 	// @param amount 	- Could be subTotal
 	// @param programs 	- the program items in the cart
 	// @param code 		- Coupon code to apply
@@ -28,7 +28,7 @@ func NewCouponService() CouponService {
 	return &couponSvc{}
 }
 
-// Selects the applicable coupon on the cart items (programs)
+// Returns the applicable coupon on the cart items (programs)
 // @param count 	- no programs in the cart
 // @param subTotal 	- the subTotal for your cart
 // @param coupons 	- the list of coupons applied on the cart
@@ -49,7 +49,7 @@ func (c *couponSvc) ApplicableCoupon(count int, subTotal float64, coupons coupon
 	return couponApplicable
 }
 
-// Calculate the total discount for a applied coupon code on the provided amount
+// Returns the calculated total discount for a given coupon code on the provided amount
 // @param amount 	- Could be subTotal
 // @param programs 	- the program items in the cart
 // @param code 		- Coupon code to apply

@@ -2,6 +2,8 @@ package coupon
 
 type Coupons []Coupon
 
+// Selects one coupon among list of coupons applied (if any),
+// otherwise return empty string which represents no coupon
 func (list Coupons) Pick() Coupon {
 	// When there are no coupons applied
 	if len(list) == 0 {

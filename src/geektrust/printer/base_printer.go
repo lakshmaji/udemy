@@ -3,6 +3,7 @@ package printer
 import "geektrust/domain"
 
 type PrinterFactory interface {
-	// Writes output to provided writer client
-	PrintBill(cart *domain.Cart)
+	// Generates the printable bill template for programs, discount and totals.
+	// Invoke writer to write to STDOUT.
+	BillTemplate(cart *domain.Cart)
 }
