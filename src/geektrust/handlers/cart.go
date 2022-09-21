@@ -3,7 +3,8 @@ package handlers
 import (
 	"geektrust/clients"
 	"geektrust/domain"
-	"geektrust/service"
+	cart_service "geektrust/service/cart"
+	coupon_service "geektrust/service/coupon"
 )
 
 // This will handle in applying and integrating the required services
@@ -18,8 +19,8 @@ func CartHandler(writer clients.BaseWriter, reader clients.BaseReader) {
 	}
 
 	cart := &domain.Cart{}
-	couponService := service.NewCouponService()
-	cartService := service.NewCartService(cart, couponService)
+	couponService := coupon_service.NewCouponService()
+	cartService := cart_service.NewCartService(cart, couponService)
 
 	for _, command := range commands {
 		switch domain.Command(command[0]) {

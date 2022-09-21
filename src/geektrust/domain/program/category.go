@@ -23,6 +23,7 @@ const (
 	CostDiploma       ProgramCost = 2500
 )
 
+// Returns the human readable version for program category enum
 func (c ProgramCategory) String() string {
 	switch c {
 	case CategoryCertification:
@@ -35,6 +36,7 @@ func (c ProgramCategory) String() string {
 	return "unknown category"
 }
 
+// Returns the individual program category amount
 func (c ProgramCategory) Fee() float64 {
 	switch c {
 	case CategoryCertification:
@@ -47,6 +49,7 @@ func (c ProgramCategory) Fee() float64 {
 	return 0
 }
 
+// Returns the pro-membership discounts applicable on each and individual program category
 func (c ProgramCategory) ProMembershipDiscount() float64 {
 	switch c {
 	case CategoryCertification:

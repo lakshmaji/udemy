@@ -1,4 +1,4 @@
-package service
+package coupon
 
 import (
 	"geektrust/domain/coupon"
@@ -6,33 +6,18 @@ import (
 	"math"
 )
 
-type CouponService interface {
-
-	// Returns the applicable coupon on the cart items (programs)
-	// @param count 	- no programs in the cart
-	// @param subTotal 	- the subTotal for your cart
-	// @param coupons 	- the list of coupons applied on the cart
-	ApplicableCoupon(count int, subTotal float64, coupons coupon.Coupons) coupon.Coupon
-
-	// Returns the calculated total discount for a given coupon code on the provided amount
-	// @param amount 	- Could be subTotal
-	// @param programs 	- the program items in the cart
-	// @param code 		- Coupon code to apply
-	CalculateDiscount(code coupon.Coupon, programs []program.Program, amount float64) float64
-}
-
-type couponSvc struct {
+type service struct {
 }
 
 func NewCouponService() CouponService {
-	return &couponSvc{}
+	return &service{}
 }
 
 // Returns the applicable coupon on the cart items (programs)
 // @param count 	- no programs in the cart
 // @param subTotal 	- the subTotal for your cart
 // @param coupons 	- the list of coupons applied on the cart
-func (c *couponSvc) ApplicableCoupon(count int, subTotal float64, coupons coupon.Coupons) coupon.Coupon {
+func (c *service) ApplicableCoupon(count int, subTotal float64, coupons coupon.Coupons) coupon.Coupon {
 	if count >= coupon.CouponB4G1MarginCount {
 		return coupon.CouponB4G1
 	}
@@ -53,7 +38,7 @@ func (c *couponSvc) ApplicableCoupon(count int, subTotal float64, coupons coupon
 // @param amount 	- Could be subTotal
 // @param programs 	- the program items in the cart
 // @param code 		- Coupon code to apply
-func (c *couponSvc) CalculateDiscount(code coupon.Coupon, programs []program.Program, amount float64) float64 {
+func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Program, amount float64) float64 {
 	var discount float64
 	switch code {
 	case coupon.CouponB4G1:

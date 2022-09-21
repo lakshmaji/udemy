@@ -9,7 +9,7 @@ type printer struct {
 	writer clients.BaseWriter
 }
 
-func NewPrinter(writer clients.BaseWriter) PrinterFactory {
+func NewPrinterService(writer clients.BaseWriter) PrinterService {
 	return &printer{writer}
 }
 
