@@ -2,7 +2,7 @@ package reader
 
 import (
 	"bufio"
-	"errors"
+	"geektrust/utils"
 	"os"
 )
 
@@ -20,14 +20,14 @@ func New() BaseReader {
 func (f *client) FileInput() ([]string, error) {
 	cliArgs := os.Args[1:]
 	if len(cliArgs) == 0 {
-		return nil, errors.New("Please provide the input file path")
+		return nil, utils.ErrorNoFilePath
 	}
 
 	filePath := cliArgs[0]
 	file, err := os.Open(filePath)
 
 	if err != nil {
-		return nil, errors.New("Error opening the input file")
+		return nil, utils.ErrorFileOpen
 	}
 
 	defer file.Close()

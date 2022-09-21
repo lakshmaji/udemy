@@ -4,8 +4,8 @@ This coupon package handle discount applying logic and selecting the final eligi
 package coupon
 
 import (
-	"geektrust/domain/coupon"
-	"geektrust/domain/program"
+	"geektrust/core/coupon"
+	"geektrust/core/program"
 )
 
 type CouponService interface {

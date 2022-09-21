@@ -3,7 +3,7 @@ package handlers
 import (
 	reader_client "geektrust/clients/reader"
 	writer_client "geektrust/clients/writer"
-	"geektrust/domain"
+	"geektrust/core"
 	cart_service "geektrust/services/cart"
 	"geektrust/services/command_parser"
 	coupon_service "geektrust/services/coupon"
@@ -13,7 +13,7 @@ import (
 // This will handle in applying and integrating the required services
 // to process the input commands and returns (STDOUT) the total amount payable.
 func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReader) {
-	cart := &domain.Cart{}
+	cart := &core.Cart{}
 
 	// Initialize services
 	couponService := coupon_service.New()
@@ -28,17 +28,17 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 
 	// Process commands
 	for _, command := range commands {
-		switch domain.Command(command[0]) {
-		case domain.CommandAddProgram:
+		switch core.Command(command[0]) {
+		case core.CommandAddProgram:
 			err := cartService.AddProgram(command[2], command[1])
 			if err != nil {
 				writer.WriteError("%v", err)
 			}
-		case domain.CommandAddProMembership:
+		case core.CommandAddProMembership:
 			cartService.AddProMembership()
-		case domain.CommandApplyCoupon:
+		case core.CommandApplyCoupon:
 			cartService.AddCoupon(command[1])
-		case domain.CommandPrintBill:
+		case core.CommandPrintBill:
 			cartService.ComputeDiscount()
 			printer := printer_service.New(writer)
 			printer.BillTemplate(cart)

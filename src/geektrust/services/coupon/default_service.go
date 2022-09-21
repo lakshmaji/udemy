@@ -1,8 +1,8 @@
 package coupon
 
 import (
-	"geektrust/domain/coupon"
-	"geektrust/domain/program"
+	"geektrust/core/coupon"
+	"geektrust/core/program"
 	"math"
 )
 

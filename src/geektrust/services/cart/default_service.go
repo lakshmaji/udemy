@@ -1,20 +1,20 @@
 package cart
 
 import (
-	"geektrust/domain"
-	"geektrust/domain/coupon"
-	"geektrust/domain/program"
+	"geektrust/core"
+	"geektrust/core/coupon"
+	"geektrust/core/program"
 	coupon_service "geektrust/services/coupon"
 	"geektrust/utils"
 	"strconv"
 )
 
 type service struct {
-	cart          *domain.Cart
+	cart          *core.Cart
 	couponService coupon_service.CouponService
 }
 
-func New(cart *domain.Cart, couponService coupon_service.CouponService) CartService {
+func New(cart *core.Cart, couponService coupon_service.CouponService) CartService {
 	return &service{cart, couponService}
 }
 
@@ -35,7 +35,7 @@ func (c *service) AddProgram(quantityCmd string, categoryCmd string) error {
 	category := utils.MapStringToProgramCategory(categoryCmd)
 	p := program.Program{
 		Category: category,
-		Qty:      qty,
+		Quantity: qty,
 	}
 
 	if err := c.cart.AddProgram(p); err != nil {

@@ -2,7 +2,7 @@ package printer
 
 import (
 	writer_client "geektrust/clients/writer"
-	"geektrust/domain"
+	"geektrust/core"
 )
 
 // This expects a BaseWriter implementation, which will be used to write the output.
@@ -17,7 +17,7 @@ func New(writer writer_client.BaseWriter) PrinterService {
 	return &printer{writer}
 }
 
-func (p *printer) BillTemplate(cart *domain.Cart) {
+func (p *printer) BillTemplate(cart *core.Cart) {
 	p.writer.WriteLn("SUB_TOTAL\t%.2f", cart.SubTotal())
 	if cart.CouponApplied == "" {
 		p.writer.WriteLn("DISCOUNT\tNONE\t0")
