@@ -6,14 +6,15 @@ import (
 	"testing/fstest"
 )
 
-type fileSystem struct {
+type fileSystemMock struct {
 }
 
+// FIXME: not using this any where. This can be removed.
 func MockNewFile() fs.FS {
-	return &fileSystem{}
+	return &fileSystemMock{}
 }
 
-func (f fileSystem) Open(name string) (fs.File, error) {
+func (f fileSystemMock) Open(name string) (fs.File, error) {
 	const (
 		firstBody  = "Post 1\nDescription"
 		secondBody = "Post 2 \n Description"
