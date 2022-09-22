@@ -119,3 +119,39 @@ PRINT_BILL`
 	reader := reader_client.New(fs)
 	CartHandler(writer, reader)
 }
+
+func TestErrorUnknownCommand(t *testing.T) {
+	// Mock os.Args
+	originalOsArgs := reader.OsArgs
+	defer func() { reader.OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go", "input.txt"}
+	reader.OsArgs = mockArgs
+
+	const (
+		input string = `ADD_PROGRAMME CERTIFICATION 1
+ADD_PHYSICS DEGREE 1
+ADD_PROGRAMME DIPLOMA 2
+APPLY_COUPON DEAL_G20
+PRINT_BILL`
+	)
+	var response bytes.Buffer
+	defer func() {
+		r := recover()
+		expected := (&utils.UnknownCommandError{Command: "ADD_PHYSICS"}).Error()
+		received := response.String()
+		if received != expected {
+			t.Errorf("Expected %s, received %s", expected, received)
+		}
+		if r == nil {
+			t.Error("Should write error")
+		}
+	}()
+
+	fs := fstest.MapFS{
+		"input.txt": {Data: []byte(input)},
+	}
+	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	reader := reader_client.New(fs)
+	CartHandler(writer, reader)
+}

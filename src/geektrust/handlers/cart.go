@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	reader_client "geektrust/clients/reader"
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
@@ -45,7 +44,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 			printer := printer_service.New(writer)
 			printer.BillTemplate(cart)
 		default:
-			writer.WriteError(fmt.Sprintf("%s: %s", utils.ErrorUnknownCommand, command))
+			writer.WriteError(&utils.UnknownCommandError{Command: command[0]})
 		}
 	}
 
