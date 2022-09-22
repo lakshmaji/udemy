@@ -1,4 +1,4 @@
-name: CI
+name: Go Report
 
 on: push
 
@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Go Report Card
         run: |
-          issues_threshold=6
+          issues_threshold=0
           gofmt_score_threshold=100
           go_vet_score_threshold=100
           gocyclo_score_threshold=93
