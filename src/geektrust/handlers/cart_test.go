@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bytes"
+	"strconv"
 	"testing"
 	"testing/fstest"
 
@@ -144,6 +145,42 @@ TOTAL	700.00
 	defer func() {
 		r := recover()
 		expected := utils.ErrorUnknownCategory.Error()
+		received := response.String()
+		if received != expected {
+			t.Errorf("Expected %s, received %s", expected, received)
+		}
+		if r == nil {
+			t.Error("Should write error")
+		}
+	}()
+
+	CartHandler(writer, reader)
+}
+
+func TestErrorInvalidQuantity(t *testing.T) {
+	// Mock os.Args
+	originalOsArgs := reader.OsArgs
+	defer func() { reader.OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go", "input.txt"}
+	reader.OsArgs = mockArgs
+
+	const (
+		input string = `ADD_PROGRAMME DEGREE three
+PRINT_BILL`
+	)
+	var response bytes.Buffer
+	fs := fstest.MapFS{
+		"input.txt": {Data: []byte(input)},
+	}
+	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	reader := reader_client.New(fs)
+
+	defer func() {
+		const fnAtoi = "Atoi"
+
+		r := recover()
+		expected := (&strconv.NumError{Func: fnAtoi, Num: "three", Err: strconv.ErrSyntax}).Error()
 		received := response.String()
 		if received != expected {
 			t.Errorf("Expected %s, received %s", expected, received)
