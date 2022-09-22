@@ -36,7 +36,6 @@ func (f *client) ParseFileContent(name string) (io.Reader, error) {
 	if err != nil {
 		return nil, utils.ErrorFileOpen
 	}
-	defer file.Close()
 	return file, nil
 }
 
