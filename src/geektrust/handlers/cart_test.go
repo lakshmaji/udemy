@@ -20,13 +20,6 @@ func TestErrorNoInputFileNameProvided(t *testing.T) {
 	mockArgs := []string{"main.go"}
 	reader.OsArgs = mockArgs
 
-	const (
-		input string = `ADD_PROGRAMME CERTIFICATION 1
-ADD_PROGRAMME DEGREE 1
-ADD_PROGRAMME DIPLOMA 2
-APPLY_COUPON DEAL_G20
-PRINT_BILL`
-	)
 	var response bytes.Buffer
 	defer func() {
 		r := recover()
@@ -54,13 +47,6 @@ func TestErrorFileNotFound(t *testing.T) {
 	mockArgs := []string{"main.go", "input.txt"}
 	reader.OsArgs = mockArgs
 
-	const (
-		input string = `ADD_PROGRAMME CERTIFICATION 1
-ADD_PROGRAMME DEGREE 1
-ADD_PROGRAMME DIPLOMA 2
-APPLY_COUPON DEAL_G20
-PRINT_BILL`
-	)
 	var response bytes.Buffer
 	defer func() {
 		r := recover()
