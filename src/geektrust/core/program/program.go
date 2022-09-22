@@ -2,7 +2,7 @@ package program
 
 // Program - a model to contain the information belonging to program and associated information such as quantity.
 type Program struct {
-	Category ProgramCategory
+	Category Category
 	Quantity int
 }
 
