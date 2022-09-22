@@ -3,8 +3,12 @@ package reader
 import (
 	"bufio"
 	"geektrust/utils"
+	"io"
 	"os"
 )
+
+var osOpen = os.Open
+var osArgs = os.Args
 
 // Shell reader client
 type client struct {
@@ -17,21 +21,24 @@ func New() BaseReader {
 	return &client{}
 }
 
-func (f *client) FileInput() ([]string, error) {
-	cliArgs := os.Args[1:]
-	if len(cliArgs) == 0 {
-		return nil, utils.ErrorNoFilePath
+func (f *client) ParseFileName() (string, error) {
+	args := osArgs[1:]
+	if len(args) == 0 {
+		return "", utils.ErrorNoFilePath
 	}
+	return args[0], nil
+}
 
-	filePath := cliArgs[0]
-	file, err := os.Open(filePath)
-
+func (f *client) ParseFileContent(fileSystem FileSystem, name string) (io.Reader, error) {
+	file, err := fileSystem.Open(name)
 	if err != nil {
 		return nil, utils.ErrorFileOpen
 	}
+	return file, nil
+}
 
-	defer file.Close()
-
+func (f *client) ParseFileLines(file io.Reader) ([]string, error) {
+	defer file.(*os.File).Close()
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
