@@ -50,8 +50,9 @@ func (c ProgramCategory) String() string {
 		return "DEGREE"
 	case CategoryDiploma:
 		return "DIPLOMA"
+	default:
+		return "unknown category"
 	}
-	return "unknown category"
 }
 
 // Returns the individual program category amount
@@ -63,8 +64,9 @@ func (c ProgramCategory) Fee() float64 {
 		return float64(CostDegree)
 	case CategoryDiploma:
 		return float64(CostDiploma)
+	default:
+		return 0
 	}
-	return 0
 }
 
 // Returns the pro-membership discounts applicable on each and individual program category

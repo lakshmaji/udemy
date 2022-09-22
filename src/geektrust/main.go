@@ -17,11 +17,8 @@ import (
 
 // Generate the bill of purchases from Geekdemy.
 func main() {
-	var writer writer_client.BaseWriter
-	var reader reader_client.BaseReader
-
-	reader = reader_client.New()
-	writer = writer_client.New(os.Stdout, writer_client.DefaultOptions)
+	var writer writer_client.BaseWriter = writer_client.New(os.Stdout, writer_client.DefaultOptions)
+	var reader reader_client.BaseReader = reader_client.New()
 
 	handlers.CartHandler(writer, reader)
 }
