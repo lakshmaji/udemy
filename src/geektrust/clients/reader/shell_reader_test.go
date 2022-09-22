@@ -49,8 +49,8 @@ import (
 func TestParseFileContent(t *testing.T) {
 
 	// Mock os.Open
-	originalOsOpen := osOpen
-	defer func() { osOpen = originalOsOpen }()
+	// originalOsOpen := osOpen
+	// defer func() { osOpen = originalOsOpen }()
 
 	fs := fstest.MapFS{
 		"hello world.md":  {Data: []byte("hi")},

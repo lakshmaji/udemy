@@ -1,6 +1,6 @@
 package core
 
-// The program command can be one of following
+// Command - The program command can be one of following
 //
 //	ADD_PROGRAMME
 //	APPLY_COUPON

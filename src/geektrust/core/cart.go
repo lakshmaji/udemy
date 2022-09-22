@@ -7,13 +7,15 @@ import (
 )
 
 const (
-	// total programme cost margin for applying enrollment fee.
+	// EnrollmentFeeMargin is a marginal (cart) amount for applying enrollment fee.
 	EnrollmentFeeMargin float64 = 6666
-	EnrollmentFee       float64 = 500
-	// Pro membership fee
+	// EnrollmentFee indicates amount
+	EnrollmentFee float64 = 500
+	// ProMemberShipFee is the amount which is applied when student is subscribed to pro-membership.
 	ProMemberShipFee float64 = 200
 )
 
+// Cart - holds and encapsulate the data with help of several members defined over it.
 type Cart struct {
 	Programs []program.Program
 	// If students has added pro membership to cart
@@ -26,7 +28,7 @@ type Cart struct {
 	CouponApplied coupon.Coupon
 }
 
-// If the total programme cost is or above Rs.6666/- the enrollment fee is waived off.
+// EnrollmentFee - If the total programme cost is or above Rs.6666/- the enrollment fee is waived off.
 func (c *Cart) EnrollmentFee() float64 {
 	if c.programsNetAmount() < EnrollmentFeeMargin {
 		return EnrollmentFee
@@ -34,7 +36,7 @@ func (c *Cart) EnrollmentFee() float64 {
 	return 0
 }
 
-// a Pro Membership for a small amount of Rs.200/- is applicable when student purchase Pro Membership.
+// ProMembershipFee - a Pro Membership for a small amount of Rs.200/- is applicable when student purchase Pro Membership.
 func (c *Cart) ProMembershipFee() float64 {
 	if c.hasProMemberShip {
 		return ProMemberShipFee
@@ -64,7 +66,7 @@ func (c *Cart) programsGrossAmount() float64 {
 	return total
 }
 
-// Computes total membership discount if applicable.
+// TotalProMembershipDiscount - Computes total membership discount if applicable.
 func (c *Cart) TotalProMembershipDiscount() float64 {
 	var discount float64
 	for _, p := range c.Programs {
@@ -73,7 +75,7 @@ func (c *Cart) TotalProMembershipDiscount() float64 {
 	return discount
 }
 
-// Computes subTotal
+// SubTotal - Computes subTotal
 //
 // total = program gross amount + membership fee - membership discount + enrollment fee
 func (c *Cart) SubTotal() float64 {
@@ -87,14 +89,14 @@ func (c *Cart) SubTotal() float64 {
 	return total
 }
 
-// Final payable amount
+// Total - Computes final payable amount
 //
 // total = subTotal - coupon discount
 func (c *Cart) Total() float64 {
 	return c.SubTotal() - c.CouponDiscountApplied
 }
 
-// The total no of programs in the cart.
+// TotalProgramsCount - The total no of programs in the cart.
 func (c *Cart) TotalProgramsCount() int {
 	var noOfItems int
 	for _, p := range c.Programs {
@@ -103,10 +105,12 @@ func (c *Cart) TotalProgramsCount() int {
 	return noOfItems
 }
 
+// AddProMembership - subscribe student to membership
 func (c *Cart) AddProMembership() {
 	c.hasProMemberShip = true
 }
 
+// AddProgram - add program category to cart with given quantity.
 func (c *Cart) AddProgram(p program.Program) error {
 	if p.Category == program.CategoryUnknown {
 		return utils.ErrorUnknownCategory
@@ -115,6 +119,8 @@ func (c *Cart) AddProgram(p program.Program) error {
 	return nil
 }
 
+// AddCoupon - apply a single coupon (at a time) to the entire cart.
+// This coupon is used to deduct certain amount (which is based on coupon applied) from final amount (overall cart).
 func (c *Cart) AddCoupon(code coupon.Coupon) {
 	c.CouponsList = append(c.CouponsList, code)
 }

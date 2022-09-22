@@ -1,9 +1,9 @@
 /*
-writer handles the responsibility of handling output operations.
+Package writer - handles the responsibility of handling output operations.
 */
 package writer
 
-// You can implement this writer interface to handle output representations for REST API's using http library or web framework.
+// BaseWriter - You can implement this writer interface to handle output representations for REST API's using http library or web framework.
 //
 // Current implementation contains code for handle STDOUT operations.
 // Handles responsibility of writing to given Writer.

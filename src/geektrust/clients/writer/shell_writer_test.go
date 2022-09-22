@@ -117,7 +117,7 @@ func TestWriteError(t *testing.T) {
 					t.Errorf("Should panic")
 				}
 			}()
-			New(&output, &Options{Panic: true}).WriteError(tc.input)
+			New(&output, DefaultTestOptions).WriteError(tc.input)
 			if output.String() != "" {
 				t.Errorf("Should throw error, received %v", output)
 			}

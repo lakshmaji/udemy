@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// Error messages
 var (
 	ErrorUnknownCategory = errors.New("Unknown program category")
 	ErrorNoFilePath      = errors.New("Please provide the input file path")
@@ -12,6 +13,7 @@ var (
 	ErrorUnknownCommand  = "Unrecognized command"
 )
 
+// UnknownCommandError - Each instantiation to UnknownCommandError returns a distinct error value even if the text is identical.
 type UnknownCommandError struct {
 	Command string
 }

@@ -1,12 +1,12 @@
 package coupon
 
-// This coupon package specifically deals with the list of coupons applied by the user.
+// Coupons - This specifically deals with the list of coupons applied by the user.
 // This is basically a field from Cart instance.
 //
 // If 2 or more coupons are applied, the higher value coupon needs to be considered.
 type Coupons []Coupon
 
-// Returns one coupon among list of coupons applied (if any),
+// Pick - Returns one coupon among list of coupons applied (if any),
 // otherwise return empty string which represents no coupon
 func (list Coupons) Pick() Coupon {
 	couponCount := len(list)
@@ -21,17 +21,17 @@ func (list Coupons) Pick() Coupon {
 	return list.Max()
 }
 
-// Select the first coupon from the list
+// First - Select the first coupon from the list
 func (list Coupons) First() Coupon {
 	return list[0]
 }
 
-// No coupon is applied
+// None - No coupon is applied
 func (list Coupons) None() Coupon {
 	return ""
 }
 
-// When there are more than one coupon applied, pick the coupon with maximum discount
+// Max - When there are more than one coupon applied, pick the coupon with maximum discount
 func (list Coupons) Max() Coupon {
 	var max Coupon
 	for _, coupon := range list {

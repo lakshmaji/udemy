@@ -10,10 +10,8 @@ type printer struct {
 	writer writer_client.BaseWriter
 }
 
-// This instantiate a printer service instance.
-//
-// Expects a BaseWrite implementation as function parameter.
-func New(writer writer_client.BaseWriter) PrinterService {
+// New - This creates a printer service instance. A BaseWrite implementation should be passed in the argument.
+func New(writer writer_client.BaseWriter) Printer {
 	return &printer{writer}
 }
 

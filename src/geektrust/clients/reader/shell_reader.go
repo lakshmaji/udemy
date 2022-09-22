@@ -8,7 +8,8 @@ import (
 	"os"
 )
 
-var osOpen = os.Open
+// OsArgs hold the reference to command-line arguments.
+// This allows for mocking during testing.
 var OsArgs = os.Args
 
 // Shell reader client
@@ -16,10 +17,10 @@ type client struct {
 	fileSystem FileSystem
 }
 
-// This reader is shell based, which means it can interact with local file system.
+// New reader allows reading from shell, which means it can interact with local file system.
 //
 // Currently it indirectly support this application by providing interface to read data from file.
-func New(fileSystem fs.FS) BaseReader {
+func New(fileSystem FileSystem) BaseReader {
 	return &client{fileSystem}
 }
 

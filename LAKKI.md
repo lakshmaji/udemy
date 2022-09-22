@@ -17,12 +17,16 @@ go tool cover -html=c.out
 
 
 ```bash
-go fmt
+go fmt ./...
 go vet
-go
+go vet ./...
+$HOME/go/bin/golint ./...
 
- $HOME/go/bin/golangci-lint run     
+ $HOME/go/bin/golangci-lint run
+ $HOME/go/bin/gocyclo .   
 ```
+
+![golint,gofmt, go vet](https://sparkbox.com/uploads/article_uploads/code-checking-options.png)
 
 
 ## Code snippets

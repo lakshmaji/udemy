@@ -1,8 +1,9 @@
 /*
-This program package is central repository for managing the program categories and corresponding cost. Pro membership discounts also be defined here.
+Package program - package is central repository for managing the program categories and corresponding cost. Pro membership discounts also be defined here.
 */
 package program
 
+// ProgramCategory - data type to define programme category.
 type ProgramCategory int64
 
 // 3 types of program categories
@@ -26,6 +27,7 @@ const (
 	ProDiscountDegree        = 0.03
 )
 
+// ProgramCost - data type to define the programme cost
 type ProgramCost float64
 
 // cost of the program based on category
@@ -55,7 +57,7 @@ func (c ProgramCategory) String() string {
 	}
 }
 
-// Returns the individual program category amount
+// Fee - Returns the individual program category amount
 func (c ProgramCategory) Fee() float64 {
 	switch c {
 	case CategoryCertification:
@@ -69,7 +71,7 @@ func (c ProgramCategory) Fee() float64 {
 	}
 }
 
-// Returns the pro-membership discounts applicable on each and individual program category
+// ProMembershipDiscount - Returns the discount (percentage) applicable on each and individual program category
 func (c ProgramCategory) ProMembershipDiscount() float64 {
 	switch c {
 	case CategoryCertification:
