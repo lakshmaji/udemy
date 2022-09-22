@@ -1,3 +1,36 @@
+# Instructions
+
+## Development
+
+```bash
+go run main.go sample_input/input1.txt
+```
+
+## Testing
+
+```bash
+$HOME/go/bin/richgo test -coverprofile=c.out ./... 
+go tool cover -html=c.out 
+```
+
+## Lint
+
+
+```bash
+go fmt
+go vet
+go
+
+ $HOME/go/bin/golangci-lint run     
+```
+
+
+## Code snippets
+
+### File open mock service
+
+
+```go
 package reader
 
 import (
@@ -49,3 +82,5 @@ func (f fileSystemMock) Open(name string) (fs.File, error) {
 		Err:  os.ErrNotExist,
 	}
 }
+
+```
