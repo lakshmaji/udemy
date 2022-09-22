@@ -1,0 +1,62 @@
+name: Generate go report
+on: [ push, pull_request ]
+
+jobs:
+  # unit-tests:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v3
+  #     - name: Setup Go
+  #       uses: actions/setup-go@v3
+  #       with:
+  #         go-version-file: './go.mod'
+  #     - run: go test ./... -cover
+
+  reporting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/geektrust
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.mod'
+      - run: go vet
+      # install goreportcard and dependencies
+      - run: git clone https://github.com/gojp/goreportcard.git
+      - run: cd goreportcard && ./scripts/make-install.sh && go install ./cmd/goreportcard-cli
+      - run: rm -rf goreportcard
+      # run cli tool
+      - run: goreportcard-cli -v -t 98
+
+
+  Linting:
+    name: Golang CI - Linting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/geektrust
+    steps:
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v2.5.2
+        with:
+          version: latest
+          # skip cache because of flaky behaviors
+          skip-build-cache: true
+          skip-pkg-cache: true
+          skip-go-installation: true
+          only-new-issues: true
+          args: --skip-dirs=pkg --timeout=3m
