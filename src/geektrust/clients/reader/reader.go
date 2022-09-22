@@ -16,7 +16,7 @@ type BaseReader interface {
 	//
 	// and returns all the lines as an array of strings in the end.
 	ParseFileName() (string, error)
-	ParseFileContent(fileSystem FileSystem, name string) (io.Reader, error)
+	ParseFileContent(name string) (io.Reader, error)
 	ParseFileLines(file io.Reader) ([]string, error)
 }
 

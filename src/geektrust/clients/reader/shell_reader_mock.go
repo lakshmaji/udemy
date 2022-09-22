@@ -9,7 +9,7 @@ import (
 type fileSystem struct {
 }
 
-func MockNewFile() FileSystem {
+func MockNewFile() fs.FS {
 	return &fileSystem{}
 }
 

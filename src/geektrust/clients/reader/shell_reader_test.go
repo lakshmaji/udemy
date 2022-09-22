@@ -81,11 +81,11 @@ func TestParseFileContent(t *testing.T) {
 	// }
 	// osOpen = mockOpen
 
-	mockReader := New()
+	mockReader := New(fs)
 	// e := fstest.TestFS()
 	// dirEntry, err := fs.ReadDir("input.txt")
 
-	content, err := mockReader.ParseFileContent(fs, "input.txt")
+	content, err := mockReader.ParseFileContent("input.txt")
 	if err != nil {
 		t.Errorf("should not throw error, got %v", err)
 	}

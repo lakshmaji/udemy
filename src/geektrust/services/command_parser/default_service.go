@@ -2,7 +2,6 @@ package command_parser
 
 import (
 	reader_client "geektrust/clients/reader"
-	"os"
 	"strings"
 )
 
@@ -22,7 +21,7 @@ func (s *service) Commands() ([][]string, error) {
 	}
 
 	// dirEntry, err := fs.ReadDir(os., file)
-	content, err := s.reader.ParseFileContent(os.DirFS("."), name)
+	content, err := s.reader.ParseFileContent(name)
 	if err != nil {
 		return nil, err
 	}
