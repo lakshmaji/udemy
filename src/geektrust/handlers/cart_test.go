@@ -155,3 +155,41 @@ PRINT_BILL`
 	reader := reader_client.New(fs)
 	CartHandler(writer, reader)
 }
+
+func TestAddProMemberShip(t *testing.T) {
+	// Mock os.Args
+	originalOsArgs := reader.OsArgs
+	defer func() { reader.OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go", "input.txt"}
+	reader.OsArgs = mockArgs
+
+	const (
+		input string = `ADD_PRO_MEMBERSHIP
+PRINT_BILL`
+		output string = `SUB_TOTAL	700.00
+DISCOUNT	NONE	0
+TOTAL_PRO_DISCOUNT	0.00
+PRO_MEMBERSHIP_FEE	200.00
+ENROLLMENT_FEE	500.00
+TOTAL	700.00
+`
+	)
+	var response bytes.Buffer
+	fs := fstest.MapFS{
+		"input.txt": {Data: []byte(input)},
+	}
+	writer := writer_client.New(&response, writer_client.DefaultOptions)
+	reader := reader_client.New(fs)
+	CartHandler(writer, reader)
+
+	result := response.String()
+
+	if result == "" {
+		t.Errorf("Should return bill, received %s", result)
+	}
+
+	if number := bytes.Compare([]byte(output), response.Bytes()); number != 0 {
+		t.Errorf("expected %s, received %s", output, result)
+	}
+}
