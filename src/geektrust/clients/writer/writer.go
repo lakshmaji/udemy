@@ -13,5 +13,5 @@ type BaseWriter interface {
 	// Write output.
 	// panic and stop execution control flow when `panic` is set to true.
 	// Exit the program execution when `panic` is set to false.
-	WriteError(format string, content ...interface{})
+	WriteError(content interface{})
 }

@@ -39,8 +39,8 @@ func (s *shellClient) WriteLn(format string, content ...interface{}) {
 	fmt.Fprintf(s.w, fmt.Sprintln(format), content...)
 }
 
-func (s *shellClient) WriteError(format string, content ...interface{}) {
-	fmt.Fprintf(s.w, fmt.Sprintln(format), content)
+func (s *shellClient) WriteError(content interface{}) {
+	fmt.Fprint(s.w, content)
 	if s.options.Panic {
 		panic(content)
 	}

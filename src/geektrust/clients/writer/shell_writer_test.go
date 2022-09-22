@@ -90,8 +90,8 @@ func TestWriteError(t *testing.T) {
 	}{
 		{
 			description: "TestWrite",
-			input:       "Hello World",
-			expected:    "Hello World",
+			input:       "Hello Error",
+			expected:    "Hello Error",
 		},
 		{
 			description: "TestWrite",
@@ -117,7 +117,10 @@ func TestWriteError(t *testing.T) {
 					t.Errorf("Should panic")
 				}
 			}()
-			New(&output, DefaultOptions).WriteError("%v", tc.input)
+			New(&output, &Options{Panic: true}).WriteError(tc.input)
+			if output.String() != "" {
+				t.Errorf("Should throw error, received %v", output)
+			}
 		})
 	}
 }

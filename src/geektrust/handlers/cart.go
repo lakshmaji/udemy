@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	reader_client "geektrust/clients/reader"
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
@@ -8,6 +9,7 @@ import (
 	"geektrust/services/command_parser"
 	coupon_service "geektrust/services/coupon"
 	printer_service "geektrust/services/printer"
+	"geektrust/utils"
 )
 
 // This will handle in applying and integrating the required services
@@ -23,7 +25,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	// Get input commands
 	commands, err := commandIOService.Commands()
 	if err != nil {
-		writer.WriteError("%v", err)
+		writer.WriteError(err)
 	}
 
 	// Process commands
@@ -32,7 +34,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 		case core.CommandAddProgram:
 			err := cartService.AddProgram(command[2], command[1])
 			if err != nil {
-				writer.WriteError("%v", err)
+				writer.WriteError(err)
 			}
 		case core.CommandAddProMembership:
 			cartService.AddProMembership()
@@ -43,7 +45,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 			printer := printer_service.New(writer)
 			printer.BillTemplate(cart)
 		default:
-			writer.WriteError("Unrecognized command provided: %s", command)
+			writer.WriteError(fmt.Sprintf("%s: %s", utils.ErrorUnknownCommand, command))
 		}
 	}
 
