@@ -25,7 +25,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: './go.mod'
+          go-version-file: './src/geektrust/go.mod'
       - run: go vet
       # install goreportcard and dependencies
       - run: git clone https://github.com/gojp/goreportcard.git
@@ -61,3 +61,4 @@ jobs:
           skip-go-installation: true
           only-new-issues: true
           args: --skip-dirs=pkg --timeout=3m
+          working-directory: src/geektrust
