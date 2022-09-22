@@ -130,7 +130,7 @@ func TestErrorUnknownCommand(t *testing.T) {
 
 	const (
 		input string = `ADD_PROGRAMME CERTIFICATION 1
-ADD_PHYSICS DEGREE 1
+ADD_COURSE DEGREE 1
 ADD_PROGRAMME DIPLOMA 2
 APPLY_COUPON DEAL_G20
 PRINT_BILL`
@@ -138,7 +138,7 @@ PRINT_BILL`
 	var response bytes.Buffer
 	defer func() {
 		r := recover()
-		expected := (&utils.UnknownCommandError{Command: "ADD_PHYSICS"}).Error()
+		expected := (&utils.UnknownCommandError{Command: "ADD_COURSE"}).Error()
 		received := response.String()
 		if received != expected {
 			t.Errorf("Expected %s, received %s", expected, received)
@@ -153,6 +153,47 @@ PRINT_BILL`
 	}
 	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
 	reader := reader_client.New(fs)
+	CartHandler(writer, reader)
+}
+
+func TestErrorUnknownProgramCategory(t *testing.T) {
+	// Mock os.Args
+	originalOsArgs := reader.OsArgs
+	defer func() { reader.OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go", "input.txt"}
+	reader.OsArgs = mockArgs
+
+	const (
+		input string = `ADD_PROGRAMME PHYSICS 2
+PRINT_BILL`
+		output string = `SUB_TOTAL	700.00
+DISCOUNT	NONE	0
+TOTAL_PRO_DISCOUNT	0.00
+PRO_MEMBERSHIP_FEE	200.00
+ENROLLMENT_FEE	500.00
+TOTAL	700.00
+`
+	)
+	var response bytes.Buffer
+	fs := fstest.MapFS{
+		"input.txt": {Data: []byte(input)},
+	}
+	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	reader := reader_client.New(fs)
+
+	defer func() {
+		r := recover()
+		expected := utils.ErrorUnknownCategory.Error()
+		received := response.String()
+		if received != expected {
+			t.Errorf("Expected %s, received %s", expected, received)
+		}
+		if r == nil {
+			t.Error("Should write error")
+		}
+	}()
+
 	CartHandler(writer, reader)
 }
 
