@@ -3,6 +3,7 @@ package writer
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -66,21 +67,6 @@ func TestWriteWithMultiLineString(t *testing.T) {
 	}
 }
 
-func TestWriteWithPackageStruct(t *testing.T) {
-	str := ("Package Id, Discount, Total Delivery Cost\n")
-	str += ("pkg1, 0.00, 175.00\n")
-	str += ("pkg2, 0.00, 275.00\n")
-	str += ("pkg3, 35.00, 665.00")
-
-	expected := "Package Id, Discount, Total Delivery Cost\npkg1, 0.00, 175.00\npkg2, 0.00, 275.00\npkg3, 35.00, 665.00\n"
-	var output bytes.Buffer
-	New(&output, DefaultOptions).WriteLn(str)
-
-	if output.String() != expected {
-		t.Errorf("Expected %v, got %v", str, output)
-	}
-}
-
 func TestWriteError(t *testing.T) {
 
 	tt := []struct {
@@ -123,4 +109,27 @@ func TestWriteError(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestExit(t *testing.T) {
+
+	var spy string
+	// mock
+	exitProgram = func(exitCode int) {
+		spy = fmt.Sprintf("Exiting with code %d", exitCode)
+	}
+	input := "Some error string"
+
+	var output bytes.Buffer
+	defer func() {
+		recover()
+		t.Log(spy)
+
+		if spy != "Exiting with code 1" {
+			t.Error("Should exit with code 1")
+		}
+		// restore
+		exitProgram = os.Exit
+	}()
+	New(&output, DefaultOptions).WriteError(input)
 }

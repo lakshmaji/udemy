@@ -21,6 +21,7 @@ var DefaultOptions *Options = &Options{}
 
 // DefaultTestOptions - define the default behavior for testing.
 var DefaultTestOptions *Options = &Options{Panic: true}
+var exitProgram func(exitCode int) = os.Exit
 
 // Shell writer client
 type shellClient struct {
@@ -47,5 +48,9 @@ func (s *shellClient) WriteError(content interface{}) {
 	if s.options.Panic {
 		panic(content)
 	}
-	os.Exit(1)
+	exit(1)
+}
+
+func exit(exitCode int) {
+	exitProgram(1)
 }
