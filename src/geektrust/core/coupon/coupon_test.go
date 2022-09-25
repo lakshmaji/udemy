@@ -41,3 +41,17 @@ func TestCouponB4G1MarginCount(t *testing.T) {
 		t.Errorf("Expected %d, Received %d", expected, CouponB4G1MarginCount)
 	}
 }
+
+func TestDealG20(t *testing.T) {
+	expected := 20 / float64(100)
+	if dealG20 != expected {
+		t.Errorf("Expected %f, Received %f", expected, dealG20)
+	}
+}
+
+func TestDealG5(t *testing.T) {
+	expected := 5 / float64(100)
+	if dealG5 != expected {
+		t.Errorf("Expected %f, Received %f", expected, dealG5)
+	}
+}

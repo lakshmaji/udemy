@@ -24,8 +24,10 @@ const (
 
 const (
 	// DealG20 - This coupon can be applied if the purchased programmes value is Rs.10,000/- or above. It provides a 20% discount on the total programme cost. The coupon needs to be applied explicitly to get a discount.
+	// This coupon percentage value
 	dealG20 float64 = 0.2 // 20 / 100
 	// DealG5 - This coupon can only be applied if there are a minimum of 2 programmes being purchased. It provides a 5% discount on the total programme cost. The coupon needs to be applied explicitly to get a discount.
+	// This coupon percentage value
 	dealG5 float64 = 0.05 // 5 / 100
 )
 
