@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestApplicableCoupon(t *testing.T) {
+func TestApplicableCoupon_WhenNoCouponApplied(t *testing.T) {
 	type TestInput struct {
 		noOfPrograms int
 		subTotal     float64
@@ -33,6 +33,14 @@ func TestApplicableCoupon(t *testing.T) {
 				subTotal:     19000,
 			},
 			expected: coupon.CouponB4G1,
+		},
+		{
+			description: fmt.Sprintf("when total no of programs are less than %d, it should not apply %s coupon", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			input: TestInput{
+				noOfPrograms: 2,
+				subTotal:     5000,
+			},
+			expected: coupon.Coupon(""),
 		},
 	}
 
