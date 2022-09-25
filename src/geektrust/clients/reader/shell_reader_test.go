@@ -1,6 +1,7 @@
 package reader
 
 import (
+	"geektrust/utils"
 	"io"
 	"testing"
 	"testing/fstest"
@@ -46,52 +47,98 @@ import (
 // 	}
 // }
 
+// func TestParseFileContent(t *testing.T) {
+
+// 	// Mock os.Open
+// 	// originalOsOpen := osOpen
+// 	// defer func() { osOpen = originalOsOpen }()
+
+// 	fs := fstest.MapFS{
+// 		"input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
+// 	}
+
+// 	// mockOpen := func(name string) (*os.File, error) {
+// 	// 	// file := os.Stdin
+// 	// 	// file.WriteString("sd\n")
+// 	// 	// file.WriteString("sd\n")
+// 	// 	// file, err := os.Create("./temp  .txt")
+// 	// 	// if err != nil {
+// 	// 	// 	log.Fatal(err)
+// 	// 	// }
+// 	// 	// writer := bufio.NewWriterSize(file, 10)
+// 	// 	// linesToWrite := []string{"This is an example", "to show how", "to write to a file", "line by line."}
+// 	// 	// for _, line := range linesToWrite {
+// 	// 	// 	_, err := writer.WriteString(line + "\n")
+// 	// 	// 	if err != nil {
+// 	// 	// 		log.Fatalf("Got error while writing to a file. Err: %s", err.Error())
+// 	// 	// 	}
+// 	// 	// }
+// 	// 	fstest.TestFS{}
+// 	// 	var file bytes.Buffer
+// 	// 	file.WriteString("dasdsa")
+// 	// 	return file, nil
+// 	// }
+// 	// osOpen = mockOpen
+
+// 	mockReader := New(fs)
+// 	// e := fstest.TestFS()
+// 	// dirEntry, err := fs.ReadDir("input.txt")
+
+// 	content, err := mockReader.ParseFileContent("input.txt")
+// 	if err != nil {
+// 		t.Errorf("should not throw error, got %v", err)
+// 	}
+// 	// lines, err := mockReader.ReadLines(fileInput)
+// 	// if err != nil {
+// 	// 	t.Errorf("should not throw error, got %v", err)
+// 	// }
+// 	// t.Log(lines)
+// 	if content == nil {
+// 		t.Error("File content should not be empty")
+// 	}
+
+// 	b, err := io.ReadAll(content)
+// 	if err != nil {
+// 		t.Error("error reading file", err)
+// 	}
+// 	value := string(b)
+// 	if len(value) == 0 {
+// 		t.Error("No Content available in the file", value)
+
+// 	}
+
+// 	// defer content.(*os.File).Close()
+// 	// scanner := bufio.NewScanner(content)
+// 	// var lines []string
+
+// 	// for scanner.Scan() {
+// 	// 	textLine := scanner.Text()
+// 	// 	lines = append(lines, textLine)
+// 	// }
+
+// 	// if len(lines) != 0 {
+// 	// 	t.Error("hsgdhs")
+
+// 	// }
+// 	// rd := bufio.NewReader(content)
+// 	// str, _ := rd.ReadString("\n")
+// 	// io.WriteString(out, strings.TrimSuffix(str, "\n")+" was input\n")
+
+// 	// if receivedFileName != "input.txt" {
+// 	// 	t.Errorf("Expected file name %s, received %s", "input.txt", receivedFileName)
+// 	// }
+// }
+
 func TestParseFileContent(t *testing.T) {
-
-	// Mock os.Open
-	// originalOsOpen := osOpen
-	// defer func() { osOpen = originalOsOpen }()
-
 	fs := fstest.MapFS{
 		"input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
 	}
 
-	// mockOpen := func(name string) (*os.File, error) {
-	// 	// file := os.Stdin
-	// 	// file.WriteString("sd\n")
-	// 	// file.WriteString("sd\n")
-	// 	// file, err := os.Create("./temp  .txt")
-	// 	// if err != nil {
-	// 	// 	log.Fatal(err)
-	// 	// }
-	// 	// writer := bufio.NewWriterSize(file, 10)
-	// 	// linesToWrite := []string{"This is an example", "to show how", "to write to a file", "line by line."}
-	// 	// for _, line := range linesToWrite {
-	// 	// 	_, err := writer.WriteString(line + "\n")
-	// 	// 	if err != nil {
-	// 	// 		log.Fatalf("Got error while writing to a file. Err: %s", err.Error())
-	// 	// 	}
-	// 	// }
-	// 	fstest.TestFS{}
-	// 	var file bytes.Buffer
-	// 	file.WriteString("dasdsa")
-	// 	return file, nil
-	// }
-	// osOpen = mockOpen
-
 	mockReader := New(fs)
-	// e := fstest.TestFS()
-	// dirEntry, err := fs.ReadDir("input.txt")
-
 	content, err := mockReader.ParseFileContent("input.txt")
 	if err != nil {
-		t.Errorf("should not throw error, got %v", err)
+		t.Errorf("should not return error, got %v", err)
 	}
-	// lines, err := mockReader.ReadLines(fileInput)
-	// if err != nil {
-	// 	t.Errorf("should not throw error, got %v", err)
-	// }
-	// t.Log(lines)
 	if content == nil {
 		t.Error("File content should not be empty")
 	}
@@ -103,57 +150,35 @@ func TestParseFileContent(t *testing.T) {
 	value := string(b)
 	if len(value) == 0 {
 		t.Error("No Content available in the file", value)
-
 	}
-
-	// defer content.(*os.File).Close()
-	// scanner := bufio.NewScanner(content)
-	// var lines []string
-
-	// for scanner.Scan() {
-	// 	textLine := scanner.Text()
-	// 	lines = append(lines, textLine)
-	// }
-
-	// if len(lines) != 0 {
-	// 	t.Error("hsgdhs")
-
-	// }
-	// rd := bufio.NewReader(content)
-	// str, _ := rd.ReadString("\n")
-	// io.WriteString(out, strings.TrimSuffix(str, "\n")+" was input\n")
-
-	// if receivedFileName != "input.txt" {
-	// 	t.Errorf("Expected file name %s, received %s", "input.txt", receivedFileName)
-	// }
 }
 
-// func TestFileInputError(t *testing.T) {
-// 	str := ("Package Id, Discount, Total Delivery Cost\n")
-// 	str += ("pkg1, 0.00, 175.00\n")
-// 	str += ("pkg2, 0.00, 275.00\n")
-// 	str += ("pkg3, 35.00, 665.00")
+func TestParseFileContentError(t *testing.T) {
+	fs := fstest.MapFS{}
 
-// 	expected := "Package Id, Discount, Total Delivery Cost\npkg1, 0.00, 175.00\npkg2, 0.00, 275.00\npkg3, 35.00, 665.00\n"
-// 	var output bytes.Buffer
-// 	New(&output, DefaultOptions).WriteLn(str)
-
-// 	if output.String() != expected {
-// 		t.Errorf("Expected %v, got %v", str, output)
-// 	}
-// }
+	mockReader := New(fs)
+	content, err := mockReader.ParseFileContent("input.txt")
+	if err == nil {
+		t.Errorf("should return error, got %v", err)
+	}
+	if content != nil {
+		t.Error("File content is empty")
+	}
+	if err != utils.ErrorFileOpen {
+		t.Errorf("Expected %v, Received %v", utils.ErrorFileOpen, err)
+	}
+}
 
 func TestParseFileNameError(t *testing.T) {
 	// mock
 	originalOsArgs := OsArgs
 	defer func() { OsArgs = originalOsArgs }()
 
+	// restore
 	mockArgs := []string{"main.go"}
 	OsArgs = mockArgs
 
-	fs := fstest.MapFS{
-		// "input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
-	}
+	fs := fstest.MapFS{}
 	reader := New(fs)
 
 	_, err := reader.ParseFileName()
@@ -167,18 +192,60 @@ func TestParseFileName(t *testing.T) {
 	originalOsArgs := OsArgs
 	defer func() { OsArgs = originalOsArgs }()
 
+	// restore
 	mockArgs := []string{"main.go", "input.txt"}
 	OsArgs = mockArgs
 
-	fs := fstest.MapFS{
-		// "input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
-	}
+	fs := fstest.MapFS{}
 	reader := New(fs)
-	content, err := reader.ParseFileName()
+	filename, err := reader.ParseFileName()
 	if err != nil {
 		t.Errorf("should not return error, got %v", err)
 	}
-	if content != "input.txt" {
+	if filename != "input.txt" {
 		t.Error("Should return input.txt as filename")
 	}
 }
+
+// func TestParseFileLinesError(t *testing.T) {
+
+// 	fs := fstest.MapFS{}
+// 	reader := New(fs)
+// 	a, _ := fs.Open("input.txt")
+
+// 	lines, err := reader.ParseFileLines(a)
+// 	if err != nil {
+// 		t.Errorf("should not return error, got %v", err)
+// 	}
+// 	expectedLines := [][]string{
+// 		{
+// 			"ADD_CERTIFICATION", "2",
+// 		},
+// 	}
+// 	if !reflect.DeepEqual(lines, expectedLines) {
+// 		t.Errorf("Expected %v, Received %v", expectedLines, lines)
+// 	}
+// }
+
+// func TestParseFileLines(t *testing.T) {
+
+// 	fs := fstest.MapFS{}
+// 	mockReader := New(fs)
+
+// 	// var file bytes.Buffer
+// 	// file.WriteString("dasdsa")
+// 	a, _ := fs.Open("input.txt")
+
+// 	lines, err := mockReader.ParseFileLines(a)
+// 	if err != nil {
+// 		t.Errorf("should not return error, got %v", err)
+// 	}
+// 	expectedLines := [][]string{
+// 		{
+// 			"ADD_CERTIFICATION", "2",
+// 		},
+// 	}
+// 	if !reflect.DeepEqual(lines, expectedLines) {
+// 		t.Errorf("Expected %v, Received %v", expectedLines, lines)
+// 	}
+// }
