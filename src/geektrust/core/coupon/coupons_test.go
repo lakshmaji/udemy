@@ -46,3 +46,16 @@ func TestPick(t *testing.T) {
 	}
 
 }
+
+func TestNone(t *testing.T) {
+	if (Coupons{}).None() != "" {
+		t.Error("Should be empty string")
+	}
+}
+
+func TestMax(t *testing.T) {
+	coupons := Coupons{CouponDealG5, CouponDealG20}
+	if coupons.Max() != CouponDealG5 {
+		t.Errorf("%v should be selected", CouponDealG20)
+	}
+}
