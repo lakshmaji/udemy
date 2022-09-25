@@ -156,6 +156,48 @@ func TestAddProgramError(t *testing.T) {
 
 }
 
+func TestComputeDiscount(t *testing.T) {
+	type input struct {
+	}
+
+	tt := []struct {
+		description      string
+		input            *cart_model.Cart
+		expectedCoupon   coupon.Coupon
+		expectedDiscount float64
+	}{
+		{
+			description: "no coupons",
+			input: &cart_model.Cart{
+				Programs: []program.Program{
+					{
+						Category: program.CategoryDegree,
+						Quantity: 2,
+					},
+				},
+			},
+			expectedCoupon:   coupon.Coupon(""),
+			expectedDiscount: 0,
+		},
+	}
+
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
+			cartService := New(test.input, mockCouponService)
+
+			cartService.ComputeDiscount()
+			if test.input.CouponApplied != test.expectedCoupon {
+				t.Errorf("Expected %v, Received %v", test.expectedCoupon, test.input.CouponApplied)
+			}
+			if test.input.CouponDiscountApplied != test.expectedDiscount {
+				t.Errorf("Expected %v, Received %v", test.expectedDiscount, test.input.CouponDiscountApplied)
+			}
+		})
+	}
+
+}
+
 func equal(t *testing.T, a, b []string) bool {
 	t.Helper()
 	if len(a) != len(b) {
