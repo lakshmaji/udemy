@@ -1,14 +1,5 @@
 package cmd
 
-// type BaseReader interface {
-// 	// Read the file by iterating over each line,
-// 	//
-// 	// and returns all the lines as an array of strings in the end.
-// 	ParseFileName() (string, error)
-// 	ParseFileContent(name string) (io.Reader, error)
-// 	ParseFileLines(file io.Reader) ([]string, error)
-// }
-
 import (
 	reader_client "geektrust/clients/reader"
 	"io"
@@ -23,7 +14,6 @@ type mockInput struct {
 	FileLines           []string
 }
 
-// Shell reader client
 type client struct {
 	mockInput
 }
