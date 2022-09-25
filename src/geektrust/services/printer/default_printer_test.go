@@ -4,6 +4,7 @@ import (
 	"bytes"
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
+	"geektrust/core/coupon"
 	"geektrust/core/program"
 	"strings"
 	"testing"
@@ -16,16 +17,25 @@ func TestBillTemplate(t *testing.T) {
 		expected    string
 	}{
 		{
-			description: "Empty cart",
-			input:       &core.Cart{},
+			description: "When coupon applied",
+			input: &core.Cart{
+				Programs: []program.Program{
+					{
+						Category: program.CategoryDiploma,
+						Quantity: 2,
+					},
+				},
+				CouponApplied:         coupon.CouponDealG5,
+				CouponDiscountApplied: 23,
+			},
 			expected: func() string {
 				var builder strings.Builder
-				builder.WriteString("SUB_TOTAL\t500.00\n")
-				builder.WriteString("DISCOUNT\tNONE\t0\n")
+				builder.WriteString("SUB_TOTAL\t5500.00\n")
+				builder.WriteString("COUPON_DISCOUNT\tDEAL_G5\t23.00\n")
 				builder.WriteString("TOTAL_PRO_DISCOUNT\t0.00\n")
 				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
 				builder.WriteString("ENROLLMENT_FEE\t500.00\n")
-				builder.WriteString("TOTAL\t500.00\n")
+				builder.WriteString("TOTAL\t5477.00\n")
 				return builder.String()
 			}(),
 		},
