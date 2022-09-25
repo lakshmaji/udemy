@@ -30,7 +30,7 @@ func TestUnknownCommandError(t *testing.T) {
 	err := &UnknownCommandError{
 		Command: "INCREASE_QUANTITY",
 	}
-	if err.Error() != "Unrecognized command INCREASE_QUANTITY" {
-		t.Error("Should be \"Unrecognized command INCREASE_QUANTITY\"")
+	if err.Error() != "Unrecognized command: INCREASE_QUANTITY" {
+		t.Errorf("Should be \"Unrecognized command: INCREASE_QUANTITY\", received %v", err)
 	}
 }
