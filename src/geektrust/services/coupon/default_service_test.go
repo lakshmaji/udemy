@@ -57,3 +57,47 @@ func TestApplicableCoupon_WhenNoCouponApplied(t *testing.T) {
 		})
 	}
 }
+
+func TestApplicableCoupon_WhenB1G4Applied(t *testing.T) {
+
+	tt := []struct {
+		description string
+		input       testInput
+		expected    coupon.Coupon
+	}{
+		{
+			description: fmt.Sprintf("when total no of programs are less than to %d, it should not apply %s", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			input: testInput{
+				noOfPrograms: 2,
+				subTotal:     3000,
+				coupons: []coupon.Coupon{
+					coupon.CouponB4G1,
+				},
+			},
+			expected: coupon.Coupon(""),
+		},
+		{
+			description: fmt.Sprintf("when total no of programs are more than to %d, it should apply %s even though there are other coupons available", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			input: testInput{
+				noOfPrograms: 5,
+				subTotal:     13000,
+				coupons: []coupon.Coupon{
+					coupon.CouponDealG20, coupon.CouponB4G1,
+				},
+			},
+			expected: coupon.CouponB4G1,
+		},
+	}
+
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+
+			printer := New()
+			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
+
+			if received != test.expected {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+}
