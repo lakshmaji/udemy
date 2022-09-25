@@ -1,9 +1,9 @@
-package cart
+package cart_service
 
 import (
 	"geektrust/core/coupon"
 	"geektrust/core/program"
-	coupon_service "geektrust/services/coupon"
+	"geektrust/services/coupon_service"
 )
 
 type mockInput struct {

@@ -1,7 +1,7 @@
 /*
-Package coupon - This coupon package handle discount applying logic and selecting the final eligible coupon for the cart.
+Package coupon_service - This coupon package handle discount applying logic and selecting the final eligible coupon for the cart.
 */
-package coupon
+package coupon_service
 
 import (
 	"geektrust/core/coupon"

@@ -1,4 +1,4 @@
-package coupon
+package coupon_service
 
 import (
 	"fmt"

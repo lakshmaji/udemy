@@ -1,5 +1,5 @@
 /*
-Package cart - is a service, which is used to manipulate the cart instance properties.
+Package cart_service - is a service, which is used to manipulate the cart instance properties.
 
 Add program category to cart with specified number of items.
 
@@ -9,7 +9,7 @@ Apply coupon code.
 
 Computes discount after applying a eligible coupon.
 */
-package cart
+package cart_service
 
 // CartService ...
 type CartService interface {

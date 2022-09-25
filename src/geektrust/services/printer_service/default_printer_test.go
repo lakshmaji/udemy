@@ -1,4 +1,4 @@
-package printer
+package printer_service
 
 import (
 	"bytes"

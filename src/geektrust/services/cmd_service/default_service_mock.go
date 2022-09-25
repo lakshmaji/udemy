@@ -1,4 +1,4 @@
-package cmd
+package cmd_service
 
 import (
 	reader_client "geektrust/clients/reader"

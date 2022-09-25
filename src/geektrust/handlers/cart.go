@@ -4,10 +4,10 @@ import (
 	reader_client "geektrust/clients/reader"
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
-	cart_service "geektrust/services/cart"
-	"geektrust/services/cmd"
-	coupon_service "geektrust/services/coupon"
-	printer_service "geektrust/services/printer"
+	"geektrust/services/cart_service"
+	"geektrust/services/cmd_service"
+	"geektrust/services/coupon_service"
+	"geektrust/services/printer_service"
 	"geektrust/utils"
 )
 
@@ -19,7 +19,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	// Initialize services
 	couponService := coupon_service.New()
 	cartService := cart_service.New(cart, couponService)
-	inputParser := cmd.New(reader)
+	inputParser := cmd_service.New(reader)
 	printer := printer_service.New(writer)
 
 	// Get input commands

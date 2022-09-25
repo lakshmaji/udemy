@@ -1,4 +1,4 @@
-package printer
+package printer_service
 
 import (
 	writer_client "geektrust/clients/writer"

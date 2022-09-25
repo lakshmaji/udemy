@@ -1,9 +1,9 @@
 /*
-Package cmd - will read the io.Reader contents by iterating through each line delimited by carriage return, and returns them as <COMMAND> <ARGS...> format.
+Package cmd_service - will read the io.Reader contents by iterating through each line delimited by carriage return, and returns them as <COMMAND> <ARGS...> format.
 
 The command will be used to evaluate the task to be performed. Returns error, when the io.Reader implementation fails to provide file contents.
 */
-package cmd
+package cmd_service
 
 // CommandParser ...
 type CommandParser interface {
