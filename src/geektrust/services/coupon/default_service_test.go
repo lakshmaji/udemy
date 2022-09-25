@@ -202,12 +202,58 @@ func TestCalculateDiscount(t *testing.T) {
 		expected    float64
 	}{
 		{
-			description: fmt.Sprintf("coupon code %s, should return %f discount", coupon.CouponDealG20, 600.00),
+			description: fmt.Sprintf("coupon code %s", coupon.CouponDealG20),
 			input: inputCalculateDiscount{
 				code:     coupon.CouponDealG20,
 				subTotal: 3000,
 			},
 			expected: 600.00,
+		},
+		{
+			description: fmt.Sprintf("coupon code %s", coupon.CouponDealG5),
+			input: inputCalculateDiscount{
+				code:     coupon.CouponDealG5,
+				subTotal: 3000,
+			},
+			expected: 150.00,
+		},
+		{
+			description: fmt.Sprintf("coupon code %s", coupon.CouponB4G1),
+			input: inputCalculateDiscount{
+				code:     coupon.CouponB4G1,
+				subTotal: 3000,
+			},
+			expected: 0,
+		},
+		{
+			description: fmt.Sprintf("coupon code %s with some programs with fee's specified", coupon.CouponB4G1),
+			input: inputCalculateDiscount{
+				code:     coupon.CouponB4G1,
+				subTotal: 3000,
+				programs: []program.Program{
+					{
+						Quantity: 2,
+						Category: program.CategoryCertification,
+					},
+					{
+						Quantity: 1,
+						Category: program.CategoryDiploma,
+					},
+					{
+						Quantity: 1,
+						Category: program.CategoryDegree,
+					},
+				},
+			},
+			expected: 2500,
+		},
+		{
+			description: fmt.Sprintf("coupon code %s", coupon.Coupon("DEAL_G30")),
+			input: inputCalculateDiscount{
+				code:     coupon.Coupon("DEAL_G30"),
+				subTotal: 3000,
+			},
+			expected: 0,
 		},
 	}
 

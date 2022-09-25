@@ -41,6 +41,9 @@ func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Progr
 				programMinCost = p.Category.Fee()
 			}
 		}
+		if programMinCost == math.MaxFloat64 {
+			return 0
+		}
 		discount = programMinCost
 	case coupon.CouponDealG20:
 		discount = subTotal * code.Percentage()
