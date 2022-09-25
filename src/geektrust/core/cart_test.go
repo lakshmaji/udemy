@@ -69,3 +69,11 @@ func TestTotalProgramsCount(t *testing.T) {
 		t.Errorf("Expected %d, Received %d", expected, received)
 	}
 }
+
+func TestAddProMembership(t *testing.T) {
+	cart := &Cart{}
+	cart.AddProMembership()
+	if cart.ProMembershipFee() != ProMemberShipFee {
+		t.Errorf("should have pro membership fee of %f", ProMemberShipFee)
+	}
+}
