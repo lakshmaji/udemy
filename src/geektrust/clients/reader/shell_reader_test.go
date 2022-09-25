@@ -142,3 +142,43 @@ func TestParseFileContent(t *testing.T) {
 // 		t.Errorf("Expected %v, got %v", str, output)
 // 	}
 // }
+
+func TestParseFileNameError(t *testing.T) {
+	// mock
+	originalOsArgs := OsArgs
+	defer func() { OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go"}
+	OsArgs = mockArgs
+
+	fs := fstest.MapFS{
+		// "input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
+	}
+	reader := New(fs)
+
+	_, err := reader.ParseFileName()
+	if err == nil {
+		t.Errorf("should return error, got %v", err)
+	}
+}
+
+func TestParseFileName(t *testing.T) {
+	// mock
+	originalOsArgs := OsArgs
+	defer func() { OsArgs = originalOsArgs }()
+
+	mockArgs := []string{"main.go", "input.txt"}
+	OsArgs = mockArgs
+
+	fs := fstest.MapFS{
+		// "input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
+	}
+	reader := New(fs)
+	content, err := reader.ParseFileName()
+	if err != nil {
+		t.Errorf("should not return error, got %v", err)
+	}
+	if content != "input.txt" {
+		t.Error("Should return input.txt as filename")
+	}
+}
