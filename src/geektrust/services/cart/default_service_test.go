@@ -21,6 +21,18 @@ func TestAddCoupon(t *testing.T) {
 			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
 			expected:           coupon.Coupons{coupon.Coupon("DEAL_NEW_ACCOUNT")},
 		},
+		{
+			description:        "valid coupon added",
+			input:              []string{"DEAL_G20"},
+			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
+			expected:           coupon.Coupons{coupon.Coupon("DEAL_G20")},
+		},
+		{
+			description:        "add multiple coupons",
+			input:              []string{"DEAL_G20", "B4G1"},
+			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
+			expected:           coupon.Coupons{coupon.Coupon("DEAL_G20"), coupon.Coupon("B4G1")},
+		},
 	}
 
 	for _, test := range tt {
