@@ -77,12 +77,12 @@ func TestApplicableCoupon_WhenB1G4Applied(t *testing.T) {
 			expected: coupon.Coupon(""),
 		},
 		{
-			description: fmt.Sprintf("when total no of programs are more than to %d, it should apply %s even though there are other coupons available", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			description: fmt.Sprintf("when total no of programs are more than to %d, it should apply %s", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
 			input: testInput{
 				noOfPrograms: 5,
 				subTotal:     13000,
 				coupons: []coupon.Coupon{
-					coupon.CouponDealG20, coupon.CouponB4G1,
+					coupon.CouponB4G1,
 				},
 			},
 			expected: coupon.CouponB4G1,
@@ -138,6 +138,50 @@ func TestApplicableCoupon_WhenDEAL_G20Applied(t *testing.T) {
 				subTotal:     9800,
 				coupons: []coupon.Coupon{
 					coupon.CouponDealG20,
+				},
+			},
+			expected: coupon.Coupon(""),
+		},
+	}
+
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+
+			printer := New()
+			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
+
+			if received != test.expected {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+}
+
+func TestApplicableCoupon_WhenDEAL_G5Applied(t *testing.T) {
+
+	tt := []struct {
+		description string
+		input       testInput
+		expected    coupon.Coupon
+	}{
+		{
+			description: fmt.Sprintf("when total no of programs is equal to %d, it should apply coupon", coupon.CouponDealG5MarginCount),
+			input: testInput{
+				noOfPrograms: 2,
+				subTotal:     10000,
+				coupons: []coupon.Coupon{
+					coupon.CouponDealG5,
+				},
+			},
+			expected: coupon.CouponDealG5,
+		},
+		{
+			description: fmt.Sprintf("when total no of programs is less than %d, it should not apply coupon", coupon.CouponDealG5MarginCount),
+			input: testInput{
+				noOfPrograms: 1,
+				subTotal:     10000,
+				coupons: []coupon.Coupon{
+					coupon.CouponDealG5,
 				},
 			},
 			expected: coupon.Coupon(""),
