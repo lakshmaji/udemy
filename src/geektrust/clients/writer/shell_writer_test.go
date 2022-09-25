@@ -131,7 +131,6 @@ func TestExit(t *testing.T) {
 		if r != nil {
 			t.Error("Should not return any error")
 		}
-		// restore
 		exitProgram = os.Exit
 	}()
 	New(&output, DefaultOptions).WriteError(input)

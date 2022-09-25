@@ -77,14 +77,14 @@ func (c *Cart) SubTotal() float64 {
 	return total
 }
 
-// Total - Computes final payable amount
+// Total - Computes gross total payable amount
 //
 // total = subTotal - coupon discount
 func (c *Cart) Total() float64 {
 	return c.SubTotal() - c.CouponDiscountApplied
 }
 
-// NetTotal - After adding Enrollment fee(if any)
+// NetTotal - Total Net payable after adding Enrollment fee(if any)
 func (c *Cart) NetTotal() float64 {
 	return c.Total() + c.EnrollmentFee()
 }
