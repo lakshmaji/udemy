@@ -105,7 +105,7 @@ func TestApplicableCoupon_WhenDEAL_G20Applied(t *testing.T) {
 		expected    coupon.Coupon
 	}{
 		{
-			description: fmt.Sprintf("when sub total amount is equal to %d", coupon.CouponDealG20MarginAmount),
+			description: fmt.Sprintf("when sub total amount is equal to %f", coupon.CouponDealG20MarginAmount),
 			input: inputApplicableCoupon{
 				noOfPrograms: 2,
 				subTotal:     10000,
@@ -116,7 +116,7 @@ func TestApplicableCoupon_WhenDEAL_G20Applied(t *testing.T) {
 			expected: coupon.CouponDealG20,
 		},
 		{
-			description: fmt.Sprintf("when sub total amount is more than %d", coupon.CouponDealG20MarginAmount),
+			description: fmt.Sprintf("when sub total amount is more than %f", coupon.CouponDealG20MarginAmount),
 			input: inputApplicableCoupon{
 				noOfPrograms: 2,
 				subTotal:     12000,
@@ -127,7 +127,7 @@ func TestApplicableCoupon_WhenDEAL_G20Applied(t *testing.T) {
 			expected: coupon.CouponDealG20,
 		},
 		{
-			description: fmt.Sprintf("when sub total amount is less than %d", coupon.CouponDealG20MarginAmount),
+			description: fmt.Sprintf("when sub total amount is less than %f", coupon.CouponDealG20MarginAmount),
 			input: inputApplicableCoupon{
 				noOfPrograms: 2,
 				subTotal:     9800,

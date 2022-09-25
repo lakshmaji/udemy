@@ -22,9 +22,9 @@ func TestCouponB4G1(t *testing.T) {
 }
 
 func TestCouponDealG20MarginAmount(t *testing.T) {
-	expected := 10000
+	expected := float64(10000)
 	if CouponDealG20MarginAmount != expected {
-		t.Errorf("Expected %d, Received %d", expected, CouponDealG20MarginAmount)
+		t.Errorf("Expected %f, Received %f", expected, CouponDealG20MarginAmount)
 	}
 }
 
@@ -53,5 +53,42 @@ func TestDealG5(t *testing.T) {
 	expected := 5 / float64(100)
 	if dealG5 != expected {
 		t.Errorf("Expected %f, Received %f", expected, dealG5)
+	}
+}
+
+func TestPercentage(t *testing.T) {
+	tt := []struct {
+		description string
+		input       string
+		expected    float64
+	}{
+		{
+			description: "DEAL_G20",
+			input:       "DEAL_G20",
+			expected:    0.2,
+		},
+		{
+			description: "DEAL_G5",
+			input:       "DEAL_G5",
+			expected:    0.05,
+		},
+		{
+			description: "B4G1",
+			input:       "B4G1",
+			expected:    0,
+		},
+		{
+			description: "UNKNOWN",
+			input:       "UNKNOWN",
+			expected:    0,
+		},
+	}
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			received := Coupon(test.input).Percentage()
+			if received != test.expected {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
 	}
 }
