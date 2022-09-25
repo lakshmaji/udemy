@@ -35,3 +35,40 @@ func TestCostDiploma(t *testing.T) {
 		t.Error("Should be 2500")
 	}
 }
+
+func TestCategoryString(t *testing.T) {
+	tt := []struct {
+		description string
+		input       Category
+		expected    string
+	}{
+		{
+			description: "certification",
+			input:       CategoryCertification,
+			expected:    "CERTIFICATION",
+		},
+		{
+			description: "degree",
+			input:       CategoryDegree,
+			expected:    "DEGREE",
+		},
+		{
+			description: "diploma",
+			input:       CategoryDiploma,
+			expected:    "DIPLOMA",
+		},
+		{
+			description: "invalid",
+			input:       CategoryUnknown,
+			expected:    "unknown category",
+		},
+	}
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			received := test.input.String()
+			if received != test.expected {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+}
