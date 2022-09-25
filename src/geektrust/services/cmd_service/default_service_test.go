@@ -61,10 +61,6 @@ func TestCommandsError(t *testing.T) {
 
 	ErrUnableToParseLines := errors.New("Unable to parse commands")
 
-	type fileContent struct {
-		Data []byte
-	}
-
 	tt := []struct {
 		description string
 		expected    error

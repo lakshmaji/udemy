@@ -157,8 +157,6 @@ func TestAddProgramError(t *testing.T) {
 }
 
 func TestComputeDiscount(t *testing.T) {
-	type input struct {
-	}
 
 	tt := []struct {
 		description        string
@@ -214,18 +212,4 @@ func TestComputeDiscount(t *testing.T) {
 		})
 	}
 
-}
-
-func equal(t *testing.T, a, b []string) bool {
-	t.Helper()
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-	return true
 }

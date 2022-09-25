@@ -122,11 +122,14 @@ func TestExit(t *testing.T) {
 
 	var output bytes.Buffer
 	defer func() {
-		recover()
+		r := recover()
 		t.Log(spy)
 
 		if spy != "Exiting with code 1" {
 			t.Error("Should exit with code 1")
+		}
+		if r != nil {
+			t.Error("Should not return any error")
 		}
 		// restore
 		exitProgram = os.Exit

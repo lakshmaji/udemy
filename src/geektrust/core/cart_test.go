@@ -25,7 +25,10 @@ func TestAddProgram(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	if cart.Programs[0].Category != program.CategoryDegree {
 		t.Error("should contain DEGREE program category")
 	}
@@ -57,11 +60,18 @@ func TestTotalProgramsCount(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
-	cart.AddProgram(program.Program{
+	var err error
+	err = cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
+	err = cart.AddProgram(program.Program{
 		Category: program.CategoryDiploma,
 		Quantity: 1,
 	})
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 
 	expectedNoOfPrograms := 3
 	received := cart.TotalProgramsCount()
@@ -84,7 +94,10 @@ func TestTotalProMembershipDiscount(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	cart.AddProMembership()
 	received := cart.TotalProMembershipDiscount()
 	expectedDiscount := 300.0
@@ -99,7 +112,10 @@ func TestProgramsGrossAmount(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	received := cart.programsGrossAmount()
 	expectedTotal := 10000.0
 	if received != expectedTotal {
@@ -113,7 +129,10 @@ func TestProgramsNetAmount(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	received := cart.programsNetAmount()
 	expectedTotal := 10000.0
 	if received != expectedTotal {
@@ -127,7 +146,10 @@ func TestProgramsNetAmountWithProMembership(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	cart.AddProMembership()
 	received := cart.programsNetAmount()
 	expectedTotal := 9900.0
@@ -142,7 +164,10 @@ func TestZeroEnrollmentFee(t *testing.T) {
 		Category: program.CategoryDegree,
 		Quantity: 2,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	received := cart.EnrollmentFee()
 	expectedTotal := float64(0)
 	if received != expectedTotal {
@@ -156,7 +181,10 @@ func TestEnrollmentFee(t *testing.T) {
 		Category: program.CategoryCertification,
 		Quantity: 1,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	received := cart.EnrollmentFee()
 	expectedTotal := float64(500)
 	if received != expectedTotal {
@@ -216,7 +244,10 @@ func TestTotal(t *testing.T) {
 		Category: program.CategoryCertification,
 		Quantity: 1,
 	}
-	cart.AddProgram(item)
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
 	received := cart.Total()
 	expectedTotal := float64(3500)
 	if received != expectedTotal {
