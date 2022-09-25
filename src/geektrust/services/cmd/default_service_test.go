@@ -2,31 +2,37 @@ package cmd
 
 import (
 	"errors"
-	reader_client "geektrust/clients/reader"
 	"geektrust/utils"
 	"reflect"
 	"strings"
 	"testing"
-	"testing/fstest"
 )
 
 func TestCommands(t *testing.T) {
 
 	tt := []struct {
 		description string
-		input       []byte
 		expected    [][]string
+		input       mockInput
 	}{
 		{
 			description: "single line command",
-			input:       []byte("ADD_CERTIFICATION 2"),
+			input: mockInput{
+				FileName:    "input.txt",
+				FileContent: strings.NewReader("ADD_CERTIFICATION\t2"),
+				FileLines:   []string{"ADD_CERTIFICATION\t2"},
+			},
 			expected: [][]string{
 				{"ADD_CERTIFICATION", "2"},
 			},
 		},
 		{
 			description: "multi line command",
-			input:       []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1\nPRINT_BILL"),
+			input: mockInput{
+				FileName:    "input.txt",
+				FileContent: strings.NewReader("ADD_CERTIFICATION 2\nADD_DEGREE 1\nPRINT_BILL"),
+				FileLines:   []string{"ADD_CERTIFICATION 2\n", "ADD_DEGREE 1", "PRINT_BILL"},
+			},
 			expected: [][]string{
 				{"ADD_CERTIFICATION", "2"},
 				{"ADD_DEGREE", "1"},
@@ -37,19 +43,7 @@ func TestCommands(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			// mock os.Args
-			originalOsArgs := reader_client.OsArgs
-			defer func() { reader_client.OsArgs = originalOsArgs }()
-
-			mockArgs := []string{"main.go", "input.txt"}
-			reader_client.OsArgs = mockArgs
-
-			// mock fs
-			fs := fstest.MapFS{
-				"input.txt": {Data: test.input},
-			}
-			var reader reader_client.BaseReader = reader_client.New(fs)
-			commandParser := New(reader)
+			commandParser := New(newMock(test.input))
 			received, err := commandParser.Commands()
 
 			if err != nil {
@@ -63,11 +57,9 @@ func TestCommands(t *testing.T) {
 	}
 }
 
-var (
-	ErrUnableToParseLines = errors.New("Unable to parse commands")
-)
-
 func TestCommandsError(t *testing.T) {
+
+	ErrUnableToParseLines := errors.New("Unable to parse commands")
 
 	type fileContent struct {
 		Data []byte
