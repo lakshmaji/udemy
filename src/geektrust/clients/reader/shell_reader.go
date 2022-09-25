@@ -49,9 +49,5 @@ func (f *client) ParseFileLines(file io.Reader) ([]string, error) {
 		lines = append(lines, textLine)
 	}
 
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-
 	return lines, nil
 }

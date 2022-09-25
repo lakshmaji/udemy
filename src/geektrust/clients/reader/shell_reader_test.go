@@ -87,26 +87,6 @@ func TestParseFileName(t *testing.T) {
 	}
 }
 
-// func TestParseFileLinesError(t *testing.T) {
-
-// 	fs := fstest.MapFS{}
-// 	reader := New(fs)
-// 	a, _ := fs.Open("input.txt")
-
-// 	lines, err := reader.ParseFileLines(a)
-// 	if err != nil {
-// 		t.Errorf("should not return error, got %v", err)
-// 	}
-// 	expectedLines := [][]string{
-// 		{
-// 			"ADD_CERTIFICATION", "2",
-// 		},
-// 	}
-// 	if !reflect.DeepEqual(lines, expectedLines) {
-// 		t.Errorf("Expected %v, Received %v", expectedLines, lines)
-// 	}
-// }
-
 func TestParseFileLines(t *testing.T) {
 
 	var builder strings.Builder
