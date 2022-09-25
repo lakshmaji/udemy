@@ -19,10 +19,10 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	// Initialize services
 	couponService := coupon_service.New()
 	cartService := cart_service.New(cart, couponService)
-	commandIOService := cmd.New(reader)
+	inputParser := cmd.New(reader)
 
 	// Get input commands
-	commands, err := commandIOService.Commands()
+	commands, err := inputParser.Commands()
 	if err != nil {
 		writer.WriteError(err)
 	}
