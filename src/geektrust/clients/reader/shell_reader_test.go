@@ -10,34 +10,34 @@ import (
 )
 
 func TestParseFileContent(t *testing.T) {
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
 	}
 
-	mockReader := New(fs)
-	content, err := mockReader.ParseFileContent("input.txt")
+	shellReader := New(mockFS)
+	file, err := shellReader.ParseFileContent("input.txt")
 	if err != nil {
 		t.Errorf("should not return error, got %v", err)
 	}
-	if content == nil {
+	if file == nil {
 		t.Error("File content should not be empty")
 	}
 
-	b, err := io.ReadAll(content)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		t.Error("error reading file", err)
 	}
-	value := string(b)
+	value := string(content)
 	if len(value) == 0 {
 		t.Error("No Content available in the file", value)
 	}
 }
 
 func TestParseFileContentError(t *testing.T) {
-	fs := fstest.MapFS{}
+	mockFS := fstest.MapFS{}
 
-	mockReader := New(fs)
-	content, err := mockReader.ParseFileContent("input.txt")
+	shellReader := New(mockFS)
+	content, err := shellReader.ParseFileContent("input.txt")
 	if err == nil {
 		t.Errorf("should return error, got %v", err)
 	}
@@ -53,13 +53,11 @@ func TestParseFileNameError(t *testing.T) {
 	// mock
 	originalOsArgs := OsArgs
 	defer func() { OsArgs = originalOsArgs }()
-
-	// restore
 	mockArgs := []string{"main.go"}
 	OsArgs = mockArgs
 
-	fs := fstest.MapFS{}
-	reader := New(fs)
+	mockFS := fstest.MapFS{}
+	reader := New(mockFS)
 
 	_, err := reader.ParseFileName()
 	if err == nil {
@@ -71,13 +69,11 @@ func TestParseFileName(t *testing.T) {
 	// mock
 	originalOsArgs := OsArgs
 	defer func() { OsArgs = originalOsArgs }()
-
-	// restore
 	mockArgs := []string{"main.go", "input.txt"}
 	OsArgs = mockArgs
 
-	fs := fstest.MapFS{}
-	reader := New(fs)
+	mockFS := fstest.MapFS{}
+	reader := New(mockFS)
 	filename, err := reader.ParseFileName()
 	if err != nil {
 		t.Errorf("should not return error, got %v", err)
@@ -93,11 +89,11 @@ func TestParseFileLines(t *testing.T) {
 	builder.WriteString("ADD_CERTIFICATION\t2\n")
 	builder.WriteString("ADD_DEGREE\t1\n")
 
-	mfs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(builder.String())},
 	}
-	mockReader := New(mfs)
-	content, _ := mfs.Open("input.txt")
+	mockReader := New(mockFS)
+	content, _ := mockFS.Open("input.txt")
 
 	lines, err := mockReader.ParseFileLines(content)
 	if err != nil {

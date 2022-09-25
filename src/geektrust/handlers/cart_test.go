@@ -33,9 +33,9 @@ func TestErrorNoInputFileNameProvided(t *testing.T) {
 		}
 	}()
 
-	fs := fstest.MapFS{}
+	mockFS := fstest.MapFS{}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -60,9 +60,9 @@ func TestErrorFileNotFound(t *testing.T) {
 		}
 	}()
 
-	fs := fstest.MapFS{}
+	mockFS := fstest.MapFS{}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -94,11 +94,11 @@ PRINT_BILL`
 		}
 	}()
 
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -122,11 +122,11 @@ TOTAL	700.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 
 	defer func() {
 		r := recover()
@@ -156,11 +156,11 @@ func TestErrorInvalidQuantity(t *testing.T) {
 PRINT_BILL`
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 
 	defer func() {
 		const fnAtoi = "Atoi"
@@ -199,11 +199,11 @@ TOTAL	700.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 
 	result := response.String()
@@ -238,11 +238,11 @@ TOTAL	8000.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 
 	result := response.String()
@@ -315,16 +315,15 @@ TOTAL	8127.25
 			// Mock os.Args
 			originalOsArgs := reader.OsArgs
 			defer func() { reader.OsArgs = originalOsArgs }()
-
 			mockArgs := []string{"main.go", "input.txt"}
 			reader.OsArgs = mockArgs
 
 			var response bytes.Buffer
-			fs := fstest.MapFS{
+			mockFS := fstest.MapFS{
 				"input.txt": {Data: []byte(test.input)},
 			}
 			writer := writer_client.New(&response, writer_client.DefaultOptions)
-			reader := reader_client.New(fs)
+			reader := reader_client.New(mockFS)
 			CartHandler(writer, reader)
 
 			result := response.String()
