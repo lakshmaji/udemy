@@ -4,6 +4,7 @@ import (
 	"geektrust/core"
 	cart_model "geektrust/core"
 	"geektrust/core/coupon"
+	"geektrust/utils"
 	"reflect"
 	"strconv"
 	"testing"
@@ -143,6 +144,14 @@ func TestAddProgramError(t *testing.T) {
 				category: "ADD_DEGREE",
 			},
 			expected: &strconv.NumError{Func: fnAtoi, Num: "one", Err: strconv.ErrSyntax},
+		},
+		{
+			description: "invalid category",
+			input: input{
+				quantity: "1",
+				category: "CREATE_DEGREE",
+			},
+			expected: utils.ErrorUnknownCategory,
 		},
 	}
 
