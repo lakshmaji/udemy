@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"errors"
 	reader_client "geektrust/clients/reader"
 	"geektrust/utils"
 	"reflect"
+	"strings"
 	"testing"
 	"testing/fstest"
 )
@@ -61,6 +63,10 @@ func TestCommands(t *testing.T) {
 	}
 }
 
+var (
+	ErrUnableToParseLines = errors.New("Unable to parse commands")
+)
+
 func TestCommandsError(t *testing.T) {
 
 	type fileContent struct {
@@ -69,39 +75,38 @@ func TestCommandsError(t *testing.T) {
 
 	tt := []struct {
 		description string
-		files       []string
-		fileContent fstest.MapFS
 		expected    error
+		input       mockInput
 	}{
 		{
 			description: "no file name was provided",
-			files:       []string{"main.go"},
-			fileContent: fstest.MapFS{},
-			expected:    utils.ErrorNoFilePath,
+			input: mockInput{
+				ErrParseFileName: utils.ErrorNoFilePath,
+			},
+			expected: utils.ErrorNoFilePath,
 		},
 		{
 			description: "no file content was provided",
-			files:       []string{"main.go", "input.txt"},
-			fileContent: fstest.MapFS{
-				"ouput.txt": {Data: []byte("")},
+			input: mockInput{
+				FileName:            "input.txt",
+				ErrParseFileContent: utils.ErrorFileOpen,
 			},
 			expected: utils.ErrorFileOpen,
+		},
+		{
+			description: "error while reading line by line",
+			input: mockInput{
+				FileName:          "input.txt",
+				FileContent:       strings.NewReader("ADD_CERTIFICATION"),
+				ErrParseFileLines: ErrUnableToParseLines,
+			},
+			expected: ErrUnableToParseLines,
 		},
 	}
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			// mock os.Args
-			originalOsArgs := reader_client.OsArgs
-			defer func() { reader_client.OsArgs = originalOsArgs }()
-
-			mockArgs := test.files
-			reader_client.OsArgs = mockArgs
-
-			// mock fs
-			fs := test.fileContent
-			var reader reader_client.BaseReader = reader_client.New(fs)
-			commandParser := New(reader)
+			commandParser := New(newMock(test.input))
 			received, err := commandParser.Commands()
 
 			if err == nil {
@@ -112,7 +117,7 @@ func TestCommandsError(t *testing.T) {
 				t.Errorf("Expected %v, Received %v", test.expected, received)
 			}
 
-			if len(received) != 0 {
+			if len(received) > 0 {
 				t.Errorf("Should not return commands, Received %v", received)
 			}
 		})
