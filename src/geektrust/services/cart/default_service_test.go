@@ -4,6 +4,7 @@ import (
 	"geektrust/core"
 	cart_model "geektrust/core"
 	"geektrust/core/coupon"
+	"geektrust/core/program"
 	"geektrust/utils"
 	"reflect"
 	"strconv"
@@ -87,42 +88,24 @@ func TestAddProMembership(t *testing.T) {
 
 }
 
-// func TestAddProgram(t *testing.T) {
+func TestAddProgram(t *testing.T) {
 
-// 	type input struct {
-// 		quantity string
-// 		category string
-// 	}
-// 	tt := []struct {
-// 		description string
-// 		input       input
-// 		expected    float64
-// 	}{
-// 		{
-// 			description: "invalid quantity",
-// 			input: input{
-// 				quantity: "one",
-// 				category: "ADD_DEGREE",
-// 			},
-// 			expected: 0,
-// 		},
-// 	}
+	expected := program.CategoryDegree
 
-// 	for _, test := range tt {
-// 		t.Run(test.description, func(t *testing.T) {
-// 			cart := &core.Cart{}
-// 			mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
-// 			cartService := New(cart, mockCouponService)
+	cart := &core.Cart{}
+	mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
+	cartService := New(cart, mockCouponService)
 
-// 			cartService.AddProgram(test.input.quantity, test.input.category)
-// 			received := cart.ProMembershipFee()
-// 			if received != test.expected {
-// 				t.Errorf("Expected %v, Received %v", test.expected, received)
-// 			}
-// 		})
-// 	}
+	err := cartService.AddProgram("2", "DEGREE")
+	if err != nil {
+		t.Errorf("Should not return error, Received %v", err)
+	}
 
-// }
+	if int(cart.Programs[0].Category) != int(expected) {
+		t.Errorf("Expected %v, Received %v", expected, cart.Programs[0].Category)
+	}
+
+}
 
 func TestAddProgramError(t *testing.T) {
 	const fnAtoi = "Atoi"
