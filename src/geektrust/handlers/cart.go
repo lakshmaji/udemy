@@ -20,6 +20,7 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	couponService := coupon_service.New()
 	cartService := cart_service.New(cart, couponService)
 	inputParser := cmd.New(reader)
+	printer := printer_service.New(writer)
 
 	// Get input commands
 	commands, err := inputParser.Commands()
@@ -41,7 +42,6 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 			cartService.AddCoupon(command[1])
 		case core.CommandPrintBill:
 			cartService.ComputeDiscount()
-			printer := printer_service.New(writer)
 			printer.BillTemplate(cart)
 		default:
 			writer.WriteError(&utils.UnknownCommandError{Command: command[0]})
