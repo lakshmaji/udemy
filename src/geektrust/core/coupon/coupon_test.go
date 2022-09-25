@@ -20,3 +20,24 @@ func TestCouponB4G1(t *testing.T) {
 		t.Errorf("Expected %s, Received %s", expected, CouponB4G1)
 	}
 }
+
+func TestCouponDealG20MarginAmount(t *testing.T) {
+	expected := 10000
+	if CouponDealG20MarginAmount != expected {
+		t.Errorf("Expected %d, Received %d", expected, CouponDealG20MarginAmount)
+	}
+}
+
+func TestCouponDealG5MarginCount(t *testing.T) {
+	expected := 2
+	if CouponDealG5MarginCount != expected {
+		t.Errorf("Expected %d, Received %d", expected, CouponDealG5MarginCount)
+	}
+}
+
+func TestCouponB4G1MarginCount(t *testing.T) {
+	expected := 4
+	if CouponB4G1MarginCount != expected {
+		t.Errorf("Expected %d, Received %d", expected, CouponB4G1MarginCount)
+	}
+}
