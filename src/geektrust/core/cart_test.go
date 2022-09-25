@@ -135,3 +135,59 @@ func TestProgramsNetAmountWithProMembership(t *testing.T) {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
 	}
 }
+
+func TestZeroEnrollmentFee(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryDegree,
+		Quantity: 2,
+	}
+	cart.AddProgram(item)
+	received := cart.EnrollmentFee()
+	expectedTotal := float64(0)
+	if received != expectedTotal {
+		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+	}
+}
+
+func TestEnrollmentFee(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryCertification,
+		Quantity: 1,
+	}
+	cart.AddProgram(item)
+	received := cart.EnrollmentFee()
+	expectedTotal := float64(500)
+	if received != expectedTotal {
+		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+	}
+}
+
+// func TestSubTotal(t *testing.T) {
+// 	cart := &Cart{}
+// 	item := program.Program{
+// 		Category: program.CategoryDegree,
+// 		Quantity: 2,
+// 	}
+// 	cart.AddProgram(item)
+// 	received := cart.programsNetAmount()
+// 	expectedTotal := 10000.0
+// 	if received != expectedTotal {
+// 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+// 	}
+// }
+
+func TestTotal(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryCertification,
+		Quantity: 1,
+	}
+	cart.AddProgram(item)
+	received := cart.Total()
+	expectedTotal := float64(3500)
+	if received != expectedTotal {
+		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+	}
+}
