@@ -47,13 +47,7 @@ func TestApplicableCoupon_WhenNoCouponApplied(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-
-			printer := New()
-			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
-
-			if received != test.expected {
-				t.Errorf("Expected %v, Received %v", test.expected, received)
-			}
+			applicableCouponHelper(t, test.input, test.expected)
 		})
 	}
 }
@@ -91,13 +85,7 @@ func TestApplicableCoupon_WhenB1G4Applied(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-
-			printer := New()
-			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
-
-			if received != test.expected {
-				t.Errorf("Expected %v, Received %v", test.expected, received)
-			}
+			applicableCouponHelper(t, test.input, test.expected)
 		})
 	}
 }
@@ -146,13 +134,7 @@ func TestApplicableCoupon_WhenDEAL_G20Applied(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-
-			printer := New()
-			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
-
-			if received != test.expected {
-				t.Errorf("Expected %v, Received %v", test.expected, received)
-			}
+			applicableCouponHelper(t, test.input, test.expected)
 		})
 	}
 }
@@ -190,13 +172,17 @@ func TestApplicableCoupon_WhenDEAL_G5Applied(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-
-			printer := New()
-			received := printer.ApplicableCoupon(test.input.noOfPrograms, test.input.subTotal, test.input.coupons)
-
-			if received != test.expected {
-				t.Errorf("Expected %v, Received %v", test.expected, received)
-			}
+			applicableCouponHelper(t, test.input, test.expected)
 		})
+	}
+}
+
+func applicableCouponHelper(t *testing.T, input testInput, expected coupon.Coupon) {
+	t.Helper()
+	printer := New()
+	received := printer.ApplicableCoupon(input.noOfPrograms, input.subTotal, input.coupons)
+
+	if received != expected {
+		t.Errorf("Expected %v, Received %v", expected, received)
 	}
 }
