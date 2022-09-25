@@ -50,3 +50,22 @@ func TestAddCoupon(t *testing.T) {
 		t.Error("should contain B4G1 coupon code")
 	}
 }
+
+func TestTotalProgramsCount(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryDegree,
+		Quantity: 2,
+	}
+	cart.AddProgram(item)
+	cart.AddProgram(program.Program{
+		Category: program.CategoryDiploma,
+		Quantity: 1,
+	})
+
+	expected := 3
+	received := cart.TotalProgramsCount()
+	if received != expected {
+		t.Errorf("Expected %d, Received %d", expected, received)
+	}
+}
