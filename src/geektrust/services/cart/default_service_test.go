@@ -5,6 +5,7 @@ import (
 	cart_model "geektrust/core"
 	"geektrust/core/coupon"
 	"reflect"
+	"strconv"
 	"testing"
 )
 
@@ -79,6 +80,84 @@ func TestAddProMembership(t *testing.T) {
 			received := cart.ProMembershipFee()
 			if received != test.expected {
 				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+
+}
+
+// func TestAddProgram(t *testing.T) {
+
+// 	type input struct {
+// 		quantity string
+// 		category string
+// 	}
+// 	tt := []struct {
+// 		description string
+// 		input       input
+// 		expected    float64
+// 	}{
+// 		{
+// 			description: "invalid quantity",
+// 			input: input{
+// 				quantity: "one",
+// 				category: "ADD_DEGREE",
+// 			},
+// 			expected: 0,
+// 		},
+// 	}
+
+// 	for _, test := range tt {
+// 		t.Run(test.description, func(t *testing.T) {
+// 			cart := &core.Cart{}
+// 			mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
+// 			cartService := New(cart, mockCouponService)
+
+// 			cartService.AddProgram(test.input.quantity, test.input.category)
+// 			received := cart.ProMembershipFee()
+// 			if received != test.expected {
+// 				t.Errorf("Expected %v, Received %v", test.expected, received)
+// 			}
+// 		})
+// 	}
+
+// }
+
+func TestAddProgramError(t *testing.T) {
+	const fnAtoi = "Atoi"
+
+	type input struct {
+		quantity string
+		category string
+	}
+
+	tt := []struct {
+		description string
+		input       input
+		expected    error
+	}{
+		{
+			description: "invalid quantity",
+			input: input{
+				quantity: "one",
+				category: "ADD_DEGREE",
+			},
+			expected: &strconv.NumError{Func: fnAtoi, Num: "one", Err: strconv.ErrSyntax},
+		},
+	}
+
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			cart := &core.Cart{}
+			mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
+			cartService := New(cart, mockCouponService)
+
+			err := cartService.AddProgram(test.input.quantity, test.input.category)
+			if err == nil {
+				t.Error("Should return error")
+			}
+			if err.Error() != test.expected.Error() {
+				t.Errorf("Expected %v, Received %v", test.expected, err)
 			}
 		})
 	}
