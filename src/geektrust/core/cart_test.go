@@ -92,3 +92,17 @@ func TestTotalProMembershipDiscount(t *testing.T) {
 		t.Errorf("Expected %f, Received %f", expectedDiscount, received)
 	}
 }
+
+func TestProgramsGrossAmount(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryDegree,
+		Quantity: 2,
+	}
+	cart.AddProgram(item)
+	received := cart.programsGrossAmount()
+	expectedTotal := 10000.0
+	if received != expectedTotal {
+		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+	}
+}
