@@ -63,10 +63,10 @@ func TestTotalProgramsCount(t *testing.T) {
 		Quantity: 1,
 	})
 
-	expected := 3
+	expectedNoOfPrograms := 3
 	received := cart.TotalProgramsCount()
-	if received != expected {
-		t.Errorf("Expected %d, Received %d", expected, received)
+	if received != expectedNoOfPrograms {
+		t.Errorf("Expected %d, Received %d", expectedNoOfPrograms, received)
 	}
 }
 
@@ -75,5 +75,20 @@ func TestAddProMembership(t *testing.T) {
 	cart.AddProMembership()
 	if cart.ProMembershipFee() != ProMemberShipFee {
 		t.Errorf("should have pro membership fee of %f", ProMemberShipFee)
+	}
+}
+
+func TestTotalProMembershipDiscount(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryDegree,
+		Quantity: 2,
+	}
+	cart.AddProgram(item)
+	cart.AddProMembership()
+	received := cart.TotalProMembershipDiscount()
+	expectedDiscount := 300.0
+	if received != expectedDiscount {
+		t.Errorf("Expected %f, Received %f", expectedDiscount, received)
 	}
 }
