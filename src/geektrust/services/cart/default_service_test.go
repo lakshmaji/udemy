@@ -161,14 +161,15 @@ func TestComputeDiscount(t *testing.T) {
 	}
 
 	tt := []struct {
-		description      string
-		input            *cart_model.Cart
-		expectedCoupon   coupon.Coupon
-		expectedDiscount float64
+		description        string
+		input              cart_model.Cart
+		expectedCoupon     coupon.Coupon
+		expectedDiscount   float64
+		couponSvcMockInput mockInput
 	}{
 		{
 			description: "no coupons",
-			input: &cart_model.Cart{
+			input: cart_model.Cart{
 				Programs: []program.Program{
 					{
 						Category: program.CategoryDegree,
@@ -176,22 +177,39 @@ func TestComputeDiscount(t *testing.T) {
 					},
 				},
 			},
-			expectedCoupon:   coupon.Coupon(""),
-			expectedDiscount: 0,
+			expectedCoupon:     coupon.Coupon(""),
+			expectedDiscount:   0,
+			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
+		},
+		{
+			description: "coupon applied",
+			input: cart_model.Cart{
+				Programs: []program.Program{
+					{
+						Category: program.CategoryDegree,
+						Quantity: 4,
+					},
+				},
+				CouponsList: coupon.Coupons{coupon.CouponDealG20},
+			},
+			expectedCoupon:     coupon.CouponDealG20,
+			expectedDiscount:   0,
+			couponSvcMockInput: mockInput{applicableCoupon: "DEAL_G20", discount: 0},
 		},
 	}
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
-			cartService := New(test.input, mockCouponService)
+			mockCouponService := mockNewCouponService(test.couponSvcMockInput)
+			cart := &test.input
+			cartService := New(&test.input, mockCouponService)
 
 			cartService.ComputeDiscount()
-			if test.input.CouponApplied != test.expectedCoupon {
-				t.Errorf("Expected %v, Received %v", test.expectedCoupon, test.input.CouponApplied)
+			if cart.CouponApplied != test.expectedCoupon {
+				t.Errorf("Expected %v, Received %v", test.expectedCoupon, cart.CouponApplied)
 			}
-			if test.input.CouponDiscountApplied != test.expectedDiscount {
-				t.Errorf("Expected %v, Received %v", test.expectedDiscount, test.input.CouponDiscountApplied)
+			if cart.CouponDiscountApplied != test.expectedDiscount {
+				t.Errorf("Expected %v, Received %v", test.expectedDiscount, cart.CouponDiscountApplied)
 			}
 		})
 	}
