@@ -1,7 +1,7 @@
 /*
-Package printer_service - package handles final response format for bill.
+Package printersvc - package handles final response format for bill.
 */
-package printer_service
+package printersvc
 
 import "geektrust/core"
 

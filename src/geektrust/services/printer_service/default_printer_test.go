@@ -1,4 +1,4 @@
-package printer_service
+package printersvc
 
 import (
 	"bytes"
