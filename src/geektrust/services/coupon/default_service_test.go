@@ -19,10 +19,18 @@ func TestApplicableCoupon(t *testing.T) {
 		expected    coupon.Coupon
 	}{
 		{
-			description: fmt.Sprintf("when total no of programs are equal to %d, it should auto apply %s", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			description: fmt.Sprintf("when total no of programs are equal to %d, it should auto apply %s coupon", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
 			input: TestInput{
 				noOfPrograms: 4,
 				subTotal:     3000,
+			},
+			expected: coupon.CouponB4G1,
+		},
+		{
+			description: fmt.Sprintf("when total no of programs are more than %d, it should auto apply %s coupon", coupon.CouponB4G1MarginCount, coupon.CouponB4G1),
+			input: TestInput{
+				noOfPrograms: 6,
+				subTotal:     19000,
 			},
 			expected: coupon.CouponB4G1,
 		},
