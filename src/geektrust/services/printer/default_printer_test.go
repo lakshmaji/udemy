@@ -4,6 +4,7 @@ import (
 	"bytes"
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
+	"geektrust/core/program"
 	"strings"
 	"testing"
 )
@@ -25,6 +26,27 @@ func TestBillTemplate(t *testing.T) {
 				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
 				builder.WriteString("ENROLLMENT_FEE\t500.00\n")
 				builder.WriteString("TOTAL\t500.00\n")
+				return builder.String()
+			}(),
+		},
+		{
+			description: "No coupon applied",
+			input: &core.Cart{
+				Programs: []program.Program{
+					{
+						Category: program.CategoryCertification,
+						Quantity: 1,
+					},
+				},
+			},
+			expected: func() string {
+				var builder strings.Builder
+				builder.WriteString("SUB_TOTAL\t3500.00\n")
+				builder.WriteString("DISCOUNT\tNONE\t0\n")
+				builder.WriteString("TOTAL_PRO_DISCOUNT\t0.00\n")
+				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
+				builder.WriteString("ENROLLMENT_FEE\t500.00\n")
+				builder.WriteString("TOTAL\t3500.00\n")
 				return builder.String()
 			}(),
 		},
