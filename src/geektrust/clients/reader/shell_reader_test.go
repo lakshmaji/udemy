@@ -53,9 +53,7 @@ func TestParseFileContent(t *testing.T) {
 	// defer func() { osOpen = originalOsOpen }()
 
 	fs := fstest.MapFS{
-		"hello world.md":  {Data: []byte("hi")},
-		"hello-world2.md": {Data: []byte("hola")},
-		"input.txt":       {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
+		"input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
 	}
 
 	// mockOpen := func(name string) (*os.File, error) {
