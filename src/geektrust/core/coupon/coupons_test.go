@@ -55,7 +55,8 @@ func TestNone(t *testing.T) {
 
 func TestMax(t *testing.T) {
 	coupons := Coupons{CouponDealG5, CouponDealG20}
-	if coupons.Max() != CouponDealG5 {
-		t.Errorf("%v should be selected", CouponDealG20)
+	received := coupons.Max()
+	if received != CouponDealG20 {
+		t.Errorf("Expected %v, Received %v", CouponDealG20, received)
 	}
 }
