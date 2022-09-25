@@ -233,3 +233,10 @@ func TestCommandsError(t *testing.T) {
 }
 
 ```
+
+
+
+### tries
+
+- [x] c.SubTotal() - c.CouponDiscountApplied) < EnrollmentFeeMargin
+- [ ] 

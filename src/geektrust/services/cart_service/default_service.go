@@ -46,9 +46,6 @@ func (c *service) AddProgram(quantityCmd string, categoryCmd string) error {
 }
 
 func (c *service) ComputeDiscount() {
-	if c.cart.TotalProgramsCount() == 0 {
-		return
-	}
 	subTotal := c.cart.SubTotal()
 	coupon := c.couponService.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
 	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal)

@@ -133,7 +133,7 @@ func TestProgramsNetAmount(t *testing.T) {
 	if err != nil {
 		t.Error("Should not return error, received", err)
 	}
-	received := cart.programsNetAmount()
+	received := cart.SubTotal()
 	expectedTotal := 10000.0
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
@@ -151,7 +151,7 @@ func TestProgramsNetAmountWithProMembership(t *testing.T) {
 		t.Error("Should not return error, received", err)
 	}
 	cart.AddProMembership()
-	received := cart.programsNetAmount()
+	received := cart.SubTotal()
 	expectedTotal := 9900.0
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
@@ -249,7 +249,7 @@ func TestTotal(t *testing.T) {
 		t.Error("Should not return error, received", err)
 	}
 	received := cart.Total()
-	expectedTotal := float64(3500)
+	expectedTotal := float64(3000)
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
 	}

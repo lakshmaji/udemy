@@ -25,5 +25,5 @@ func (p *printer) BillTemplate(cart *core.Cart) {
 	p.writer.WriteLn("TOTAL_PRO_DISCOUNT\t%.2f", cart.TotalProMembershipDiscount())
 	p.writer.WriteLn("PRO_MEMBERSHIP_FEE\t%.2f", cart.ProMembershipFee())
 	p.writer.WriteLn("ENROLLMENT_FEE\t%.2f", cart.EnrollmentFee())
-	p.writer.WriteLn("TOTAL\t%.2f", cart.Total())
+	p.writer.WriteLn("TOTAL\t%.2f", cart.NetTotal())
 }

@@ -30,7 +30,7 @@ type Cart struct {
 
 // EnrollmentFee - If the total programme cost is or above Rs.6666/- the enrollment fee is waived off.
 func (c *Cart) EnrollmentFee() float64 {
-	if c.programsNetAmount() < EnrollmentFeeMargin {
+	if c.Total() < EnrollmentFeeMargin {
 		return EnrollmentFee
 	}
 	return 0
@@ -42,17 +42,6 @@ func (c *Cart) ProMembershipFee() float64 {
 		return ProMemberShipFee
 	}
 	return 0
-}
-
-// Computes total netAmount for programs, membership and membership discount.
-//
-// netAmount = grossAmount (all programs) + pro membership fee - pro membership discount (all programs)
-func (c *Cart) programsNetAmount() float64 {
-	var total float64
-	total += c.programsGrossAmount()
-	total += c.ProMembershipFee()
-	total -= c.TotalProMembershipDiscount()
-	return total
 }
 
 // Computes gross amount for all the programmes category in the cart.
@@ -92,7 +81,12 @@ func (c *Cart) SubTotal() float64 {
 //
 // total = subTotal - coupon discount
 func (c *Cart) Total() float64 {
-	return c.SubTotal() - c.CouponDiscountApplied + c.EnrollmentFee()
+	return c.SubTotal() - c.CouponDiscountApplied
+}
+
+// NetTotal - After adding Enrollment fee(if any)
+func (c *Cart) NetTotal() float64 {
+	return c.Total() + c.EnrollmentFee()
 }
 
 // TotalProgramsCount - The total no of programs in the cart.
