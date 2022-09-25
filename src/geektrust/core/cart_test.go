@@ -224,7 +224,7 @@ func TestSubTotal(t *testing.T) {
 					{Category: program.CategoryCertification, Quantity: 1},
 				},
 			},
-			expected: 3500,
+			expected: 3000,
 		},
 	}
 	for _, test := range tt {

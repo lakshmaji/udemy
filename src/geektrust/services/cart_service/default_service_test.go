@@ -166,6 +166,15 @@ func TestComputeDiscount(t *testing.T) {
 		couponSvcMockInput mockInput
 	}{
 		{
+			description: "no programs",
+			input: cart_model.Cart{
+				Programs: []program.Program{},
+			},
+			expectedCoupon:     coupon.Coupon(""),
+			expectedDiscount:   0,
+			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
+		},
+		{
 			description: "no coupons",
 			input: cart_model.Cart{
 				Programs: []program.Program{

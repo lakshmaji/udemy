@@ -190,7 +190,7 @@ func TestAddProMemberShip(t *testing.T) {
 	const (
 		input string = `ADD_PRO_MEMBERSHIP
 PRINT_BILL`
-		output string = `SUB_TOTAL	700.00
+		output string = `SUB_TOTAL	200.00
 DISCOUNT	NONE	0
 TOTAL_PRO_DISCOUNT	0.00
 PRO_MEMBERSHIP_FEE	200.00

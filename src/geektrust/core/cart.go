@@ -85,8 +85,6 @@ func (c *Cart) SubTotal() float64 {
 	total += c.ProMembershipFee()
 	// Print the cost of all the programmes purchased, after applying a pro membership discount (if applicable).
 	total -= c.TotalProMembershipDiscount()
-	// TODO: check if subTotal can include EnrollmentFee
-	total += c.EnrollmentFee()
 	return total
 }
 
@@ -94,7 +92,7 @@ func (c *Cart) SubTotal() float64 {
 //
 // total = subTotal - coupon discount
 func (c *Cart) Total() float64 {
-	return c.SubTotal() - c.CouponDiscountApplied
+	return c.SubTotal() - c.CouponDiscountApplied + c.EnrollmentFee()
 }
 
 // TotalProgramsCount - The total no of programs in the cart.

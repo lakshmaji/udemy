@@ -17,7 +17,7 @@ func TestBillTemplate(t *testing.T) {
 		expected    string
 	}{
 		{
-			description: "When coupon applied",
+			description: "when coupon applied",
 			input: &core.Cart{
 				Programs: []program.Program{
 					{
@@ -26,21 +26,21 @@ func TestBillTemplate(t *testing.T) {
 					},
 				},
 				CouponApplied:         coupon.CouponDealG5,
-				CouponDiscountApplied: 23,
+				CouponDiscountApplied: 0.05 * 5000,
 			},
 			expected: func() string {
 				var builder strings.Builder
-				builder.WriteString("SUB_TOTAL\t5500.00\n")
-				builder.WriteString("COUPON_DISCOUNT\tDEAL_G5\t23.00\n")
+				builder.WriteString("SUB_TOTAL\t5000.00\n")
+				builder.WriteString("COUPON_DISCOUNT\tDEAL_G5\t250.00\n")
 				builder.WriteString("TOTAL_PRO_DISCOUNT\t0.00\n")
 				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
 				builder.WriteString("ENROLLMENT_FEE\t500.00\n")
-				builder.WriteString("TOTAL\t5477.00\n")
+				builder.WriteString("TOTAL\t5250.00\n")
 				return builder.String()
 			}(),
 		},
 		{
-			description: "No coupon applied",
+			description: "no coupon applied",
 			input: &core.Cart{
 				Programs: []program.Program{
 					{
@@ -51,7 +51,7 @@ func TestBillTemplate(t *testing.T) {
 			},
 			expected: func() string {
 				var builder strings.Builder
-				builder.WriteString("SUB_TOTAL\t3500.00\n")
+				builder.WriteString("SUB_TOTAL\t3000.00\n")
 				builder.WriteString("DISCOUNT\tNONE\t0\n")
 				builder.WriteString("TOTAL_PRO_DISCOUNT\t0.00\n")
 				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
