@@ -1,6 +1,7 @@
 package core
 
 import (
+	"geektrust/core/coupon"
 	"geektrust/core/program"
 	"geektrust/utils"
 	"testing"
@@ -39,5 +40,13 @@ func TestAddProgramError(t *testing.T) {
 	err := cart.AddProgram(item)
 	if err == nil {
 		t.Error("Should return error", utils.ErrorUnknownCategory)
+	}
+}
+
+func TestAddCoupon(t *testing.T) {
+	cart := &Cart{}
+	cart.AddCoupon(coupon.CouponB4G1)
+	if cart.CouponsList[0] != coupon.CouponB4G1 {
+		t.Error("should contain B4G1 coupon code")
 	}
 }
