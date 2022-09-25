@@ -11,12 +11,23 @@ func TestCommands(t *testing.T) {
 
 	tt := []struct {
 		description string
+		input       []byte
 		expected    [][]string
 	}{
 		{
-			description: "single command",
+			description: "single line command",
+			input:       []byte("ADD_CERTIFICATION 2"),
 			expected: [][]string{
-				{"ADD_CERTIFICATION", "nADD_DEGREE"},
+				{"ADD_CERTIFICATION", "2"},
+			},
+		},
+		{
+			description: "multi line command",
+			input:       []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1\nPRINT_BILL"),
+			expected: [][]string{
+				{"ADD_CERTIFICATION", "2"},
+				{"ADD_DEGREE", "1"},
+				{"PRINT_BILL"},
 			},
 		},
 	}
@@ -32,7 +43,7 @@ func TestCommands(t *testing.T) {
 
 			// mock fs
 			fs := fstest.MapFS{
-				"input.txt": {Data: []byte("ADD_CERTIFICATION 2\nADD_DEGREE 1")},
+				"input.txt": {Data: test.input},
 			}
 			var reader reader_client.BaseReader = reader_client.New(fs)
 			commandParser := New(reader)
@@ -42,7 +53,7 @@ func TestCommands(t *testing.T) {
 				t.Error("should not return error, received", err)
 			}
 
-			if reflect.DeepEqual(received, test.expected) {
+			if !reflect.DeepEqual(received, test.expected) {
 				t.Errorf("Expected %v, Received %v", test.expected, received)
 			}
 		})
