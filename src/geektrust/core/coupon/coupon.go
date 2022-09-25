@@ -10,12 +10,10 @@ const (
 	CouponB4G1    Coupon = "B4G1"
 )
 
+// Margin amounts
 const (
 	// CouponDealG20MarginAmount - DEAL_G20 coupon purchase programme value
-	CouponDealG20MarginAmount = 10000
-)
-
-const (
+	CouponDealG20MarginAmount float64 = 10000
 	// CouponDealG5MarginCount - DEAL_G5 coupon minimum program count value
 	CouponDealG5MarginCount int = 2
 	// CouponB4G1MarginCount - B4G1 coupon  minimum program count value
