@@ -164,19 +164,51 @@ func TestEnrollmentFee(t *testing.T) {
 	}
 }
 
-// func TestSubTotal(t *testing.T) {
-// 	cart := &Cart{}
-// 	item := program.Program{
-// 		Category: program.CategoryDegree,
-// 		Quantity: 2,
-// 	}
-// 	cart.AddProgram(item)
-// 	received := cart.programsNetAmount()
-// 	expectedTotal := 10000.0
-// 	if received != expectedTotal {
-// 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
-// 	}
-// }
+func TestSubTotal(t *testing.T) {
+	tt := []struct {
+		description string
+		cart        *Cart
+		expected    float64
+	}{
+		{
+			description: "program category degree",
+			cart: &Cart{
+				Programs: []program.Program{
+					{Category: program.CategoryDegree, Quantity: 2},
+				},
+			},
+			expected: 10000,
+		},
+		{
+			description: "program category degree and pro-membership fee",
+			cart: &Cart{
+				Programs: []program.Program{
+					{Category: program.CategoryDegree, Quantity: 2},
+				},
+				hasProMemberShip: true,
+			},
+			expected: 9900,
+		},
+		{
+			description: "program category degree, pro-membership fee and enrollment fee",
+			cart: &Cart{
+				Programs: []program.Program{
+					{Category: program.CategoryCertification, Quantity: 1},
+				},
+			},
+			expected: 3500,
+		},
+	}
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			received := test.cart.SubTotal()
+			if received != test.expected {
+				t.Errorf("Expected %f, Received %f", test.expected, received)
+			}
+		})
+	}
+
+}
 
 func TestTotal(t *testing.T) {
 	cart := &Cart{}
