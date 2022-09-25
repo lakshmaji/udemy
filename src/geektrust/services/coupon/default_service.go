@@ -9,6 +9,7 @@ import (
 type service struct {
 }
 
+// New - creates coupon service. This service has methods for choosing which coupon is eligible for entire catalog and to compute coupon discount.
 func New() CouponService {
 	return &service{}
 }

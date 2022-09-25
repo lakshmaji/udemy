@@ -1,13 +1,14 @@
 /*
-This program package is central repository for managing the program categories and corresponding cost. Pro membership discounts also be defined here.
+Package program - package is central repository for managing the program categories and corresponding cost. Pro membership discounts also be defined here.
 */
 package program
 
-type ProgramCategory int64
+// Category - data type to define programme category.
+type Category int64
 
 // 3 types of program categories
 const (
-	CategoryUnknown ProgramCategory = iota
+	CategoryUnknown Category = iota
 	CategoryCertification
 	CategoryDegree
 	CategoryDiploma
@@ -26,7 +27,8 @@ const (
 	ProDiscountDegree        = 0.03
 )
 
-type ProgramCost float64
+// CategoryCost - data type to define the programme cost
+type CategoryCost float64
 
 // cost of the program based on category
 //
@@ -36,13 +38,13 @@ type ProgramCost float64
 //
 // DIPLOMA - Rs 2500
 const (
-	CostCertification ProgramCost = 3000
-	CostDegree        ProgramCost = 5000
-	CostDiploma       ProgramCost = 2500
+	CostCertification CategoryCost = 3000
+	CostDegree        CategoryCost = 5000
+	CostDiploma       CategoryCost = 2500
 )
 
 // Returns the human readable version for program category enum
-func (c ProgramCategory) String() string {
+func (c Category) String() string {
 	switch c {
 	case CategoryCertification:
 		return "CERTIFICATION"
@@ -55,8 +57,8 @@ func (c ProgramCategory) String() string {
 	}
 }
 
-// Returns the individual program category amount
-func (c ProgramCategory) Fee() float64 {
+// Fee - Returns the individual program category amount
+func (c Category) Fee() float64 {
 	switch c {
 	case CategoryCertification:
 		return float64(CostCertification)
@@ -69,8 +71,8 @@ func (c ProgramCategory) Fee() float64 {
 	}
 }
 
-// Returns the pro-membership discounts applicable on each and individual program category
-func (c ProgramCategory) ProMembershipDiscount() float64 {
+// ProMembershipDiscount - Returns the discount (percentage) applicable on each and individual program category
+func (c Category) ProMembershipDiscount() float64 {
 	switch c {
 	case CategoryCertification:
 		return ProDiscountCertification

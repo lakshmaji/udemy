@@ -16,8 +16,11 @@ type Options struct {
 	Panic bool
 }
 
-// Default settings
+// DefaultOptions allows to defined the default behavior
 var DefaultOptions *Options = &Options{}
+
+// DefaultTestOptions - define the default behavior for testing.
+var DefaultTestOptions *Options = &Options{Panic: true}
 
 // Shell writer client
 type shellClient struct {
@@ -25,7 +28,7 @@ type shellClient struct {
 	options *Options
 }
 
-// This reader is shell based, which means it can interact with local file system to write to the shell.
+// New writer allows to write contents to shell, which allows the program to interact with local file system.
 //
 // It expects Options.panic parameter, which will be used to define custom behavior when errors are encountered. This feature will be useful in identifying the risks early in development environment.
 func New(w io.Writer, options *Options) BaseWriter {

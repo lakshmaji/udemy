@@ -14,6 +14,7 @@ type service struct {
 	couponService coupon_service.CouponService
 }
 
+// New - creates new cart service with cart and coupon service implementation references.
 func New(cart *core.Cart, couponService coupon_service.CouponService) CartService {
 	return &service{cart, couponService}
 }

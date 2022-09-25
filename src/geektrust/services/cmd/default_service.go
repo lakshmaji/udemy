@@ -1,4 +1,4 @@
-package command_parser
+package cmd
 
 import (
 	reader_client "geektrust/clients/reader"
@@ -9,7 +9,7 @@ type service struct {
 	reader reader_client.BaseReader
 }
 
-// Command parser for shell client
+// New - creates Command parser given io.Reader implementation, which supports file system.
 func New(reader reader_client.BaseReader) CommandParser {
 	return &service{reader}
 }

@@ -34,7 +34,7 @@ func TestErrorNoInputFileNameProvided(t *testing.T) {
 	}()
 
 	fs := fstest.MapFS{}
-	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
 	reader := reader_client.New(fs)
 	CartHandler(writer, reader)
 }
@@ -61,7 +61,7 @@ func TestErrorFileNotFound(t *testing.T) {
 	}()
 
 	fs := fstest.MapFS{}
-	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
 	reader := reader_client.New(fs)
 	CartHandler(writer, reader)
 }
@@ -97,7 +97,7 @@ PRINT_BILL`
 	fs := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
-	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
 	reader := reader_client.New(fs)
 	CartHandler(writer, reader)
 }
@@ -125,7 +125,7 @@ TOTAL	700.00
 	fs := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
-	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
 	reader := reader_client.New(fs)
 
 	defer func() {
@@ -159,7 +159,7 @@ PRINT_BILL`
 	fs := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
-	writer := writer_client.New(&response, &writer_client.Options{Panic: true})
+	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
 	reader := reader_client.New(fs)
 
 	defer func() {

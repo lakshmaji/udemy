@@ -5,13 +5,13 @@ import (
 	writer_client "geektrust/clients/writer"
 	"geektrust/core"
 	cart_service "geektrust/services/cart"
-	"geektrust/services/command_parser"
+	"geektrust/services/cmd"
 	coupon_service "geektrust/services/coupon"
 	printer_service "geektrust/services/printer"
 	"geektrust/utils"
 )
 
-// This will handle in applying and integrating the required services
+// CartHandler - This will guide the program in applying and integrating the required services
 // to process the input commands and returns (STDOUT) the total amount payable.
 func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReader) {
 	cart := &core.Cart{}
@@ -19,10 +19,10 @@ func CartHandler(writer writer_client.BaseWriter, reader reader_client.BaseReade
 	// Initialize services
 	couponService := coupon_service.New()
 	cartService := cart_service.New(cart, couponService)
-	commandIOService := command_parser.New(reader)
+	inputParser := cmd.New(reader)
 
 	// Get input commands
-	commands, err := commandIOService.Commands()
+	commands, err := inputParser.Commands()
 	if err != nil {
 		writer.WriteError(err)
 	}

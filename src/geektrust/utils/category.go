@@ -2,9 +2,9 @@ package utils
 
 import "geektrust/core/program"
 
-// Maps the program category to enum.
+// MapStringToProgramCategory - Maps the program category to enum.
 // The enums will helps the code maintainable with minimal amount of memory allocation.
-func MapStringToProgramCategory(input string) program.ProgramCategory {
+func MapStringToProgramCategory(input string) program.Category {
 	switch input {
 	case program.CategoryCertification.String():
 		return program.CategoryCertification

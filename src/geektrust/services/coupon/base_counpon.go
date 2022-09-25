@@ -1,5 +1,5 @@
 /*
-This coupon package handle discount applying logic and selecting the final eligible coupon for the cart.
+Package coupon - This coupon package handle discount applying logic and selecting the final eligible coupon for the cart.
 */
 package coupon
 
@@ -8,6 +8,7 @@ import (
 	"geektrust/core/program"
 )
 
+// CouponService ...
 type CouponService interface {
 
 	// Returns the applicable coupon on the cart items (programs)

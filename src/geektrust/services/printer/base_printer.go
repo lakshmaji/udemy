@@ -1,11 +1,12 @@
 /*
-printer package handles final response format for bill.
+Package printer - package handles final response format for bill.
 */
 package printer
 
 import "geektrust/core"
 
-type PrinterService interface {
+// Printer ...
+type Printer interface {
 	// Generates the printable bill template for programs, discount and totals.
 	//
 	// Prints the total billable breakdown in a template defined in the concrete implementation.
