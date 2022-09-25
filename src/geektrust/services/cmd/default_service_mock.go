@@ -14,31 +14,31 @@ type mockInput struct {
 	FileLines           []string
 }
 
-type client struct {
+type mockClient struct {
 	mockInput
 }
 
-func newMock(
+func mockNewReader(
 	input mockInput,
 ) reader_client.BaseReader {
-	return &client{input}
+	return &mockClient{input}
 }
 
-func (f *client) ParseFileName() (string, error) {
+func (f *mockClient) ParseFileName() (string, error) {
 	if f.mockInput.ErrParseFileName != nil {
 		return "", f.mockInput.ErrParseFileName
 	}
 	return f.mockInput.FileName, nil
 }
 
-func (f *client) ParseFileContent(name string) (io.Reader, error) {
+func (f *mockClient) ParseFileContent(name string) (io.Reader, error) {
 	if f.mockInput.ErrParseFileContent != nil {
 		return nil, f.mockInput.ErrParseFileContent
 	}
 	return f.mockInput.FileContent, nil
 }
 
-func (f *client) ParseFileLines(file io.Reader) ([]string, error) {
+func (f *mockClient) ParseFileLines(file io.Reader) ([]string, error) {
 	if f.mockInput.ErrParseFileLines != nil {
 		return nil, f.mockInput.ErrParseFileLines
 	}

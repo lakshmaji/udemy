@@ -43,7 +43,7 @@ func TestCommands(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			commandParser := New(newMock(test.input))
+			commandParser := New(mockNewReader(test.input))
 			received, err := commandParser.Commands()
 
 			if err != nil {
@@ -98,7 +98,7 @@ func TestCommandsError(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			commandParser := New(newMock(test.input))
+			commandParser := New(mockNewReader(test.input))
 			received, err := commandParser.Commands()
 
 			if err == nil {

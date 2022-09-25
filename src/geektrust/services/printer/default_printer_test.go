@@ -64,13 +64,13 @@ func TestBillTemplate(t *testing.T) {
 
 	for _, test := range tt {
 		t.Run(test.description, func(t *testing.T) {
-			var output bytes.Buffer
-			var writer writer_client.BaseWriter = writer_client.New(&output, writer_client.DefaultOptions)
+			var mockWriter bytes.Buffer
+			writer := writer_client.New(&mockWriter, writer_client.DefaultOptions)
 
 			printer := New(writer)
 			printer.BillTemplate(test.input)
 
-			received := output.String()
+			received := mockWriter.String()
 			if received != test.expected {
 				t.Errorf("Expected %v, Received %v", test.expected, received)
 			}
