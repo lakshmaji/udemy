@@ -109,3 +109,40 @@ func TestCategoryFee(t *testing.T) {
 		})
 	}
 }
+
+func TestCategoryProMembershipDiscount(t *testing.T) {
+	tt := []struct {
+		description string
+		input       Category
+		expected    float64
+	}{
+		{
+			description: "certification",
+			input:       CategoryCertification,
+			expected:    0.02,
+		},
+		{
+			description: "degree",
+			input:       CategoryDegree,
+			expected:    0.03,
+		},
+		{
+			description: "diploma",
+			input:       CategoryDiploma,
+			expected:    0.01,
+		},
+		{
+			description: "invalid",
+			input:       CategoryUnknown,
+			expected:    0,
+		},
+	}
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			received := test.input.ProMembershipDiscount()
+			if received != test.expected {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+}
