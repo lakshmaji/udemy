@@ -8,14 +8,36 @@ import (
 )
 
 func TestAddCoupon(t *testing.T) {
-	mockCouponService := mockNewCouponService(mockInput{applicableCoupon: "", discount: 0})
-	cart := &core.Cart{}
-	cartService := New(cart, mockCouponService)
-	cartService.AddCoupon("DEAL_NEW_ACCOUNT")
-	expected := coupon.Coupons{coupon.Coupon("DEAL_NEW_ACCOUNT")}
-	if !reflect.DeepEqual(cart.CouponsList, expected) {
-		t.Errorf("Expected %v, Received %v", expected, cart.CouponsList)
+
+	tt := []struct {
+		description        string
+		input              []string
+		couponSvcMockInput mockInput
+		expected           coupon.Coupons
+	}{
+		{
+			description:        "invalid coupon added",
+			input:              []string{"DEAL_NEW_ACCOUNT"},
+			couponSvcMockInput: mockInput{applicableCoupon: "", discount: 0},
+			expected:           coupon.Coupons{coupon.Coupon("DEAL_NEW_ACCOUNT")},
+		},
 	}
+
+	for _, test := range tt {
+		t.Run(test.description, func(t *testing.T) {
+			cart := &core.Cart{}
+			mockCouponService := mockNewCouponService(test.couponSvcMockInput)
+			cartService := New(cart, mockCouponService)
+			for _, code := range test.input {
+				cartService.AddCoupon(code)
+			}
+			received := cart.CouponsList
+			if !reflect.DeepEqual(received, test.expected) {
+				t.Errorf("Expected %v, Received %v", test.expected, received)
+			}
+		})
+	}
+
 }
 
 func equal(t *testing.T, a, b []string) bool {
