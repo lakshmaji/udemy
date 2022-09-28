@@ -239,4 +239,21 @@ func TestCommandsError(t *testing.T) {
 ### tries
 
 - [x] c.SubTotal() - c.CouponDiscountApplied) < EnrollmentFeeMargin
-- [ ] 
+
+
+
+
+
+
+[./geektrust /tmp/codu/backend//codingproblemio/GEEKTRUST-BD-PS17//input1.txt]
+[./geektrust /tmp/codu/backend//codingproblemio/GEEKTRUST-BD-PS17//input2.txt]
+[./geektrust /tmp/codu/backend//codingproblemio/GEEKTRUST-BD-PS17//input4.txt]
+[./geektrust /tmp/codu/backend//codingproblemio/GEEKTRUST-BD-PS17//input3.txt]
+[./geektrust /tmp/codu/backend//codingproblemio/GEEKTRUST-BD-PS17//input5.txt]
+<!-- pwd =>  /tmp/codu/backend/go/src/geektrust -->
+
+[./geektrust /Users/lakshmajimutyala/development/projects/lakki/inte/codingproblemio/GEEKTRUST-BD-PS17/input1.txt]
+<!-- pwd =>  /Users/lakshmajimutyala/development/projects/lakki/inte/go-starter-kit/src/geektrust -->
+
+
+"/Users/lakshmajimutyala/development/projects/lakki/inte/codingproblemio/GEEKTRUST-BD-PS17/input1.txt"

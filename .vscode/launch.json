@@ -61,6 +61,26 @@
             ]
         },
         {
+            "name": "Geekpath 2 (invalid)",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/src/geektrust",
+            "args": [
+                "Users/lakshmajimutyala/development/projects/lakki/inte/codingproblemio/GEEKTRUST-BD-PS17/input1.txt"
+            ]
+        },
+        {
+            "name": "Geekpath 3 (invalid)",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/src/geektrust",
+            "args": [
+                "sample_input/input1.txt"
+            ]
+        },
+        {
             "name": "Launch test function",
             "type": "go",
             "request": "launch",
