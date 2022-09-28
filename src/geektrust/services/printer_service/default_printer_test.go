@@ -52,7 +52,7 @@ func TestBillTemplate(t *testing.T) {
 			expected: func() string {
 				var builder strings.Builder
 				builder.WriteString("SUB_TOTAL\t3000.00\n")
-				builder.WriteString("DISCOUNT\tNONE\t0\n")
+				builder.WriteString("COUPON_DISCOUNT\tNONE\t0.00\n")
 				builder.WriteString("TOTAL_PRO_DISCOUNT\t0.00\n")
 				builder.WriteString("PRO_MEMBERSHIP_FEE\t0.00\n")
 				builder.WriteString("ENROLLMENT_FEE\t500.00\n")

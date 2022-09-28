@@ -18,7 +18,7 @@ func New(writer writer_client.BaseWriter) Printer {
 func (p *printer) BillTemplate(cart *core.Cart) {
 	p.writer.WriteLn("SUB_TOTAL\t%.2f", cart.SubTotal())
 	if cart.CouponApplied == "" {
-		p.writer.WriteLn("DISCOUNT\tNONE\t0")
+		p.writer.WriteLn("COUPON_DISCOUNT\tNONE\t0.00")
 	} else {
 		p.writer.WriteLn("COUPON_DISCOUNT\t%s\t%.2f", cart.CouponApplied, cart.CouponDiscountApplied)
 	}
