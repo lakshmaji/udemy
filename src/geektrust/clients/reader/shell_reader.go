@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"path/filepath"
 )
 
 // OsArgs hold the reference to command-line arguments.
@@ -29,7 +30,12 @@ func (f *client) ParseFileName() (string, error) {
 	if len(args) == 0 {
 		return "", utils.ErrorNoFilePath
 	}
-	return args[0], nil
+	input_path := args[0]
+	if filepath.IsAbs(input_path) {
+		// unroot, as root is defined by DirFS
+		return input_path[1:], nil
+	}
+	return input_path, nil
 }
 
 func (f *client) ParseFileContent(name string) (io.Reader, error) {

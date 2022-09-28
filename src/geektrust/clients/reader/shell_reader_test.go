@@ -83,6 +83,24 @@ func TestParseFileName(t *testing.T) {
 	}
 }
 
+func TestParseFileNameAbs(t *testing.T) {
+	// mock
+	originalOsArgs := OsArgs
+	defer func() { OsArgs = originalOsArgs }()
+	mockArgs := []string{"main.go", "/input.txt"}
+	OsArgs = mockArgs
+
+	mockFS := fstest.MapFS{}
+	reader := New(mockFS)
+	filename, err := reader.ParseFileName()
+	if err != nil {
+		t.Errorf("should not return error, got %v", err)
+	}
+	if filename != "input.txt" {
+		t.Error("Should return input.txt as filename")
+	}
+}
+
 func TestParseFileLines(t *testing.T) {
 
 	var builder strings.Builder
