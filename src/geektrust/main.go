@@ -12,12 +12,18 @@ import (
 	reader_client "geektrust/clients/reader"
 	writer_client "geektrust/clients/writer"
 	"geektrust/handlers"
+	"log"
 	"os"
+	"path/filepath"
 )
 
 // Generate the bill of purchases from Geekdemy.
 func main() {
+	dir := filepath.Dir(os.Args[1:][0])
+	if !filepath.IsAbs(dir) {
+		log.Fatal("Not absolute path")
+	}
 	var writer writer_client.BaseWriter = writer_client.New(os.Stdout, writer_client.DefaultOptions)
-	var reader reader_client.BaseReader = reader_client.New(os.DirFS(""))
+	var reader reader_client.BaseReader = reader_client.New(os.DirFS(dir))
 	handlers.CartHandler(writer, reader)
 }
