@@ -133,7 +133,7 @@ func TestProgramsNetAmount(t *testing.T) {
 	if err != nil {
 		t.Error("Should not return error, received", err)
 	}
-	received := cart.programsNetAmount()
+	received := cart.SubTotal()
 	expectedTotal := 10000.0
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
@@ -151,7 +151,7 @@ func TestProgramsNetAmountWithProMembership(t *testing.T) {
 		t.Error("Should not return error, received", err)
 	}
 	cart.AddProMembership()
-	received := cart.programsNetAmount()
+	received := cart.SubTotal()
 	expectedTotal := 9900.0
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)
@@ -213,7 +213,7 @@ func TestSubTotal(t *testing.T) {
 				Programs: []program.Program{
 					{Category: program.CategoryDegree, Quantity: 2},
 				},
-				hasProMemberShip: true,
+				HasProMemberShip: true,
 			},
 			expected: 9900,
 		},
@@ -224,7 +224,7 @@ func TestSubTotal(t *testing.T) {
 					{Category: program.CategoryCertification, Quantity: 1},
 				},
 			},
-			expected: 3500,
+			expected: 3000,
 		},
 	}
 	for _, test := range tt {
@@ -249,6 +249,23 @@ func TestTotal(t *testing.T) {
 		t.Error("Should not return error, received", err)
 	}
 	received := cart.Total()
+	expectedTotal := float64(3000)
+	if received != expectedTotal {
+		t.Errorf("Expected %f, Received %f", expectedTotal, received)
+	}
+}
+
+func TestNetTotal(t *testing.T) {
+	cart := &Cart{}
+	item := program.Program{
+		Category: program.CategoryCertification,
+		Quantity: 1,
+	}
+	err := cart.AddProgram(item)
+	if err != nil {
+		t.Error("Should not return error, received", err)
+	}
+	received := cart.NetTotal()
 	expectedTotal := float64(3500)
 	if received != expectedTotal {
 		t.Errorf("Expected %f, Received %f", expectedTotal, received)

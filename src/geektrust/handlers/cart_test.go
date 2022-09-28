@@ -33,9 +33,9 @@ func TestErrorNoInputFileNameProvided(t *testing.T) {
 		}
 	}()
 
-	fs := fstest.MapFS{}
+	mockFS := fstest.MapFS{}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -60,9 +60,9 @@ func TestErrorFileNotFound(t *testing.T) {
 		}
 	}()
 
-	fs := fstest.MapFS{}
+	mockFS := fstest.MapFS{}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -94,11 +94,11 @@ PRINT_BILL`
 		}
 	}()
 
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 }
 
@@ -114,7 +114,7 @@ func TestErrorUnknownProgramCategory(t *testing.T) {
 		input string = `ADD_PROGRAMME PHYSICS 2
 PRINT_BILL`
 		output string = `SUB_TOTAL	700.00
-DISCOUNT	NONE	0
+COUPON_DISCOUNT	NONE	0.00
 TOTAL_PRO_DISCOUNT	0.00
 PRO_MEMBERSHIP_FEE	200.00
 ENROLLMENT_FEE	500.00
@@ -122,11 +122,11 @@ TOTAL	700.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 
 	defer func() {
 		r := recover()
@@ -156,11 +156,11 @@ func TestErrorInvalidQuantity(t *testing.T) {
 PRINT_BILL`
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultTestOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 
 	defer func() {
 		const fnAtoi = "Atoi"
@@ -190,8 +190,8 @@ func TestAddProMemberShip(t *testing.T) {
 	const (
 		input string = `ADD_PRO_MEMBERSHIP
 PRINT_BILL`
-		output string = `SUB_TOTAL	700.00
-DISCOUNT	NONE	0
+		output string = `SUB_TOTAL	200.00
+COUPON_DISCOUNT	NONE	0.00
 TOTAL_PRO_DISCOUNT	0.00
 PRO_MEMBERSHIP_FEE	200.00
 ENROLLMENT_FEE	500.00
@@ -199,11 +199,11 @@ TOTAL	700.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 
 	result := response.String()
@@ -238,11 +238,11 @@ TOTAL	8000.00
 `
 	)
 	var response bytes.Buffer
-	fs := fstest.MapFS{
+	mockFS := fstest.MapFS{
 		"input.txt": {Data: []byte(input)},
 	}
 	writer := writer_client.New(&response, writer_client.DefaultOptions)
-	reader := reader_client.New(fs)
+	reader := reader_client.New(mockFS)
 	CartHandler(writer, reader)
 
 	result := response.String()
@@ -308,6 +308,22 @@ ENROLLMENT_FEE	0.00
 TOTAL	8127.25
 `,
 		},
+		{
+			description: "Sample input 4",
+			input: `ADD_PROGRAMME CERTIFICATION 1
+ADD_PROGRAMME DEGREE 0
+ADD_PROGRAMME DIPLOMA 1
+ADD_PRO_MEMBERSHIP
+APPLY_COUPON DEAL_G5
+PRINT_BILL`,
+			output: `SUB_TOTAL	5615.00
+COUPON_DISCOUNT	DEAL_G5	280.75
+TOTAL_PRO_DISCOUNT	85.00
+PRO_MEMBERSHIP_FEE	200.00
+ENROLLMENT_FEE	500.00
+TOTAL	5834.25
+`,
+		},
 	}
 
 	for _, test := range tt {
@@ -315,16 +331,15 @@ TOTAL	8127.25
 			// Mock os.Args
 			originalOsArgs := reader.OsArgs
 			defer func() { reader.OsArgs = originalOsArgs }()
-
 			mockArgs := []string{"main.go", "input.txt"}
 			reader.OsArgs = mockArgs
 
 			var response bytes.Buffer
-			fs := fstest.MapFS{
+			mockFS := fstest.MapFS{
 				"input.txt": {Data: []byte(test.input)},
 			}
 			writer := writer_client.New(&response, writer_client.DefaultOptions)
-			reader := reader_client.New(fs)
+			reader := reader_client.New(mockFS)
 			CartHandler(writer, reader)
 
 			result := response.String()

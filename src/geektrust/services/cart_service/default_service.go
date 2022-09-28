@@ -48,7 +48,7 @@ func (c *service) AddProgram(quantityCmd string, categoryCmd string) error {
 func (c *service) ComputeDiscount() {
 	subTotal := c.cart.SubTotal()
 	coupon := c.couponService.ApplicableCoupon(c.cart.TotalProgramsCount(), subTotal, c.cart.CouponsList)
-	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal)
+	discount := c.couponService.CalculateDiscount(coupon, c.cart.Programs, subTotal, c.cart.HasProMemberShip)
 	c.cart.CouponDiscountApplied = discount
 	c.cart.CouponApplied = coupon
 }

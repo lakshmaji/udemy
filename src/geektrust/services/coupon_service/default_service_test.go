@@ -14,9 +14,10 @@ type inputApplicableCoupon struct {
 }
 
 type inputCalculateDiscount struct {
-	code     coupon.Coupon
-	programs []program.Program
-	subTotal float64
+	code             coupon.Coupon
+	programs         []program.Program
+	subTotal         float64
+	hasProMemberShip bool
 }
 
 func TestApplicableCoupon_WhenNoCouponApplied(t *testing.T) {
@@ -218,7 +219,7 @@ func TestCalculateDiscount(t *testing.T) {
 			expected: 150.00,
 		},
 		{
-			description: fmt.Sprintf("coupon code %s", coupon.CouponB4G1),
+			description: fmt.Sprintf("coupon code %s with no programs", coupon.CouponB4G1),
 			input: inputCalculateDiscount{
 				code:     coupon.CouponB4G1,
 				subTotal: 3000,
@@ -255,6 +256,18 @@ func TestCalculateDiscount(t *testing.T) {
 			},
 			expected: 0,
 		},
+		{
+			description: fmt.Sprintf("coupon code %s and there is at-least one program ", coupon.Coupon("DEAL_G30")),
+			input: inputCalculateDiscount{
+				code:             coupon.CouponB4G1,
+				subTotal:         3000,
+				hasProMemberShip: true,
+				programs: []program.Program{
+					{Category: program.CategoryDegree, Quantity: 2},
+				},
+			},
+			expected: 4850,
+		},
 	}
 
 	for _, test := range tt {
@@ -267,7 +280,7 @@ func TestCalculateDiscount(t *testing.T) {
 func applicableCalculateDiscount(t *testing.T, input inputCalculateDiscount, expected float64) {
 	t.Helper()
 	printer := New()
-	received := printer.CalculateDiscount(input.code, input.programs, input.subTotal)
+	received := printer.CalculateDiscount(input.code, input.programs, input.subTotal, input.hasProMemberShip)
 
 	if received != expected {
 		t.Errorf("Expected %v, Received %v", expected, received)

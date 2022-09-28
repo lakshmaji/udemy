@@ -18,12 +18,12 @@ func New(writer writer_client.BaseWriter) Printer {
 func (p *printer) BillTemplate(cart *core.Cart) {
 	p.writer.WriteLn("SUB_TOTAL\t%.2f", cart.SubTotal())
 	if cart.CouponApplied == "" {
-		p.writer.WriteLn("DISCOUNT\tNONE\t0")
+		p.writer.WriteLn("COUPON_DISCOUNT\tNONE\t0.00")
 	} else {
 		p.writer.WriteLn("COUPON_DISCOUNT\t%s\t%.2f", cart.CouponApplied, cart.CouponDiscountApplied)
 	}
 	p.writer.WriteLn("TOTAL_PRO_DISCOUNT\t%.2f", cart.TotalProMembershipDiscount())
 	p.writer.WriteLn("PRO_MEMBERSHIP_FEE\t%.2f", cart.ProMembershipFee())
 	p.writer.WriteLn("ENROLLMENT_FEE\t%.2f", cart.EnrollmentFee())
-	p.writer.WriteLn("TOTAL\t%.2f", cart.Total())
+	p.writer.WriteLn("TOTAL\t%.2f", cart.NetTotal())
 }

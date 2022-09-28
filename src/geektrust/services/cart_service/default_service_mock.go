@@ -25,6 +25,6 @@ func (f *mockClient) ApplicableCoupon(count int, subTotal float64, coupons coupo
 	return coupon.Coupon(f.applicableCoupon)
 }
 
-func (f *mockClient) CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64) float64 {
+func (f *mockClient) CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64, hasProMemberShip bool) float64 {
 	return f.discount
 }
