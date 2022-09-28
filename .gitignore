@@ -1,5 +1,4 @@
 pkg
 .DS_Store
-.vscode
 c.out
 coverage.html

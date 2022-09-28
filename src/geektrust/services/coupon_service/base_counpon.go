@@ -27,5 +27,5 @@ type CouponService interface {
 	// @param programs 	- the program items in the cart
 	//
 	// @param code 		- Coupon code to apply
-	CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64) float64
+	CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64, hasProMemberShip bool) float64
 }

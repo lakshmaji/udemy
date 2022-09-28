@@ -10,8 +10,8 @@ type Program struct {
 //
 // The discount is proportional to no of programs (Quantity field).
 // The pro-membership is applicable only when the student has added pro-membership fee.
-func (p Program) ProMembershipDiscount(hasProMemberShip bool) float64 {
-	if hasProMemberShip {
+func (p Program) ProMembershipDiscount(HasProMemberShip bool) float64 {
+	if HasProMemberShip {
 		category := p.Category
 		return category.Fee() * category.ProMembershipDiscount() * float64(p.Quantity)
 	}

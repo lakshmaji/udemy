@@ -19,7 +19,7 @@ const (
 type Cart struct {
 	Programs []program.Program
 	// If students has added pro membership to cart
-	hasProMemberShip bool
+	HasProMemberShip bool
 	// List of coupons applied by student
 	CouponsList coupon.Coupons
 	// Coupon discount after considering single coupon based on criteria provided.
@@ -38,7 +38,7 @@ func (c *Cart) EnrollmentFee() float64 {
 
 // ProMembershipFee - a Pro Membership for a small amount of Rs.200/- is applicable when student purchase Pro Membership.
 func (c *Cart) ProMembershipFee() float64 {
-	if c.hasProMemberShip {
+	if c.HasProMemberShip {
 		return ProMemberShipFee
 	}
 	return 0
@@ -59,7 +59,7 @@ func (c *Cart) programsGrossAmount() float64 {
 func (c *Cart) TotalProMembershipDiscount() float64 {
 	var discount float64
 	for _, p := range c.Programs {
-		discount += p.ProMembershipDiscount(c.hasProMemberShip)
+		discount += p.ProMembershipDiscount(c.HasProMemberShip)
 	}
 	return discount
 }
@@ -100,7 +100,7 @@ func (c *Cart) TotalProgramsCount() int {
 
 // AddProMembership - subscribe student to membership
 func (c *Cart) AddProMembership() {
-	c.hasProMemberShip = true
+	c.HasProMemberShip = true
 }
 
 // AddProgram - add program category to cart with given quantity.

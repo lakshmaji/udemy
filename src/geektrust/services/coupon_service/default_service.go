@@ -31,14 +31,18 @@ func (c *service) ApplicableCoupon(count int, subTotal float64, coupons coupon.C
 	return couponApplicable
 }
 
-func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64) float64 {
+func (c *service) CalculateDiscount(code coupon.Coupon, programs []program.Program, subTotal float64, hasProMemberShip bool) float64 {
 	var discount float64
 	switch code {
 	case coupon.CouponB4G1:
 		var programMinCost float64 = math.MaxFloat64
 		for _, p := range programs {
-			if p.Category.Fee() < programMinCost {
-				programMinCost = p.Category.Fee()
+			netProgrammeFee := p.Category.Fee()
+			if hasProMemberShip {
+				netProgrammeFee -= p.Category.Fee() * p.Category.ProMembershipDiscount()
+			}
+			if netProgrammeFee < programMinCost {
+				programMinCost = netProgrammeFee
 			}
 		}
 		if programMinCost == math.MaxFloat64 {
