@@ -3,45 +3,6 @@ on: push
 
 
 jobs:
-  # unit-tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v3
-  #     - name: Setup Go
-  #       uses: actions/setup-go@v3
-  #       with:
-  #         go-version-file: './go.mod'
-  #     - run: go test ./... -cover
-
-  # reporting:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: src/geektrust
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v3
-  #     - name: Setup Go
-  #       uses: actions/setup-go@v3
-  #       with:
-  #         go-version-file: './src/geektrust/go.mod'
-  #     - run: go vet
-  #     # install goreportcard and dependencies
-  #     - run: git clone https://github.com/gojp/goreportcard.git
-  #     - run: cd goreportcard && ./scripts/make-install.sh && go install ./cmd/goreportcard-cli
-  #     - run: rm -rf goreportcard
-  #     # run cli tool
-  #     - run: |
-  #         goreportcard-cli -v -t 90
-  #         output=`goreportcard-cli goreportcard-cli -v -t 90`
-  #         output="${output//'%'/'%25'}"
-  #         output="${output//$'\n'/'%0A'}"
-  #         output="${output//$'\r'/'%0D'}"
-  #         echo "::set-output name=summary::${output}"
-
-
-
   Linting:
     name: Golang CI - Linting
     runs-on: ubuntu-latest
